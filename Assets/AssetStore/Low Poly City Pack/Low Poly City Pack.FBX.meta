@@ -1,0 +1,339 @@
+fileFormatVersion: 2
+guid: 9a789992fedcf5242848d6f791e2dedc
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: air vinte
+    100002: billboard
+    100004: bus stop
+    100006: cap
+    100008: circular traffic sign
+    100010: circular traffic sign001
+    100012: cofee shop
+    100014: cross junction road
+    100016: curve road
+    100018: door
+    100020: electricity building
+    100022: envelope
+    100024: garbage bin
+    100026: glass syskraper
+    100028: head
+    100030: high building
+    100032: hydrant
+    100034: light head 003
+    100036: light head 2
+    100038: //RootNode
+    100040: middle house
+    100042: Object004
+    100044: old bricked building
+    100046: petrol station
+    100048: pillar
+    100050: polygon traffic sign
+    100052: polygon traffic sign001
+    100054: post box
+    100056: recycle bin
+    100058: rhombus traffic sign
+    100060: rhombus traffic sign001
+    100062: second prohibition
+    100064: sewage head
+    100066: shop house building
+    100068: smole house
+    100070: square traffic sign
+    100072: square traffic sign001
+    100074: straight road
+    100076: street phone
+    100078: t junction road
+    100080: t junction road001
+    100082: 'traffic '
+    100084: traffic light
+    100086: traffic light part
+    100088: traffic logo
+    100090: traffic prohibition
+    100092: triangle traffic sign
+    100094: triangle traffic sign001
+    100096: urban building
+    100098: Urban House
+    100100: wedding cake building
+    100102: wheels
+    100104: wide buiding
+    100106: wide building
+    100108: wide shops building
+    100110: wide small shop building
+    100112: wide traffic signs
+    400000: air vinte
+    400002: billboard
+    400004: bus stop
+    400006: cap
+    400008: circular traffic sign
+    400010: circular traffic sign001
+    400012: cofee shop
+    400014: cross junction road
+    400016: curve road
+    400018: door
+    400020: electricity building
+    400022: envelope
+    400024: garbage bin
+    400026: glass syskraper
+    400028: head
+    400030: high building
+    400032: hydrant
+    400034: light head 003
+    400036: light head 2
+    400038: //RootNode
+    400040: middle house
+    400042: Object004
+    400044: old bricked building
+    400046: petrol station
+    400048: pillar
+    400050: polygon traffic sign
+    400052: polygon traffic sign001
+    400054: post box
+    400056: recycle bin
+    400058: rhombus traffic sign
+    400060: rhombus traffic sign001
+    400062: second prohibition
+    400064: sewage head
+    400066: shop house building
+    400068: smole house
+    400070: square traffic sign
+    400072: square traffic sign001
+    400074: straight road
+    400076: street phone
+    400078: t junction road
+    400080: t junction road001
+    400082: 'traffic '
+    400084: traffic light
+    400086: traffic light part
+    400088: traffic logo
+    400090: traffic prohibition
+    400092: triangle traffic sign
+    400094: triangle traffic sign001
+    400096: urban building
+    400098: Urban House
+    400100: wedding cake building
+    400102: wheels
+    400104: wide buiding
+    400106: wide building
+    400108: wide shops building
+    400110: wide small shop building
+    400112: wide traffic signs
+    2300000: air vinte
+    2300002: billboard
+    2300004: bus stop
+    2300006: cap
+    2300008: circular traffic sign
+    2300010: circular traffic sign001
+    2300012: cofee shop
+    2300014: cross junction road
+    2300016: curve road
+    2300018: door
+    2300020: electricity building
+    2300022: envelope
+    2300024: garbage bin
+    2300026: glass syskraper
+    2300028: head
+    2300030: high building
+    2300032: hydrant
+    2300034: light head 003
+    2300036: light head 2
+    2300038: middle house
+    2300040: old bricked building
+    2300042: petrol station
+    2300044: pillar
+    2300046: polygon traffic sign
+    2300048: polygon traffic sign001
+    2300050: post box
+    2300052: recycle bin
+    2300054: rhombus traffic sign
+    2300056: rhombus traffic sign001
+    2300058: second prohibition
+    2300060: sewage head
+    2300062: shop house building
+    2300064: smole house
+    2300066: square traffic sign
+    2300068: square traffic sign001
+    2300070: straight road
+    2300072: street phone
+    2300074: t junction road
+    2300076: t junction road001
+    2300078: 'traffic '
+    2300080: traffic light
+    2300082: traffic light part
+    2300084: traffic logo
+    2300086: traffic prohibition
+    2300088: triangle traffic sign
+    2300090: triangle traffic sign001
+    2300092: urban building
+    2300094: Urban House
+    2300096: wedding cake building
+    2300098: wheels
+    2300100: wide buiding
+    2300102: wide building
+    2300104: wide shops building
+    2300106: wide small shop building
+    2300108: wide traffic signs
+    3300000: air vinte
+    3300002: billboard
+    3300004: bus stop
+    3300006: cap
+    3300008: circular traffic sign
+    3300010: circular traffic sign001
+    3300012: cofee shop
+    3300014: cross junction road
+    3300016: curve road
+    3300018: door
+    3300020: electricity building
+    3300022: envelope
+    3300024: garbage bin
+    3300026: glass syskraper
+    3300028: head
+    3300030: high building
+    3300032: hydrant
+    3300034: light head 003
+    3300036: light head 2
+    3300038: middle house
+    3300040: old bricked building
+    3300042: petrol station
+    3300044: pillar
+    3300046: polygon traffic sign
+    3300048: polygon traffic sign001
+    3300050: post box
+    3300052: recycle bin
+    3300054: rhombus traffic sign
+    3300056: rhombus traffic sign001
+    3300058: second prohibition
+    3300060: sewage head
+    3300062: shop house building
+    3300064: smole house
+    3300066: square traffic sign
+    3300068: square traffic sign001
+    3300070: straight road
+    3300072: street phone
+    3300074: t junction road
+    3300076: t junction road001
+    3300078: 'traffic '
+    3300080: traffic light
+    3300082: traffic light part
+    3300084: traffic logo
+    3300086: traffic prohibition
+    3300088: triangle traffic sign
+    3300090: triangle traffic sign001
+    3300092: urban building
+    3300094: Urban House
+    3300096: wedding cake building
+    3300098: wheels
+    3300100: wide buiding
+    3300102: wide building
+    3300104: wide shops building
+    3300106: wide small shop building
+    3300108: wide traffic signs
+    4300000: smole house
+    4300002: Urban House
+    4300004: old bricked building
+    4300006: shop house building
+    4300008: wedding cake building
+    4300010: electricity building
+    4300012: wide small shop building
+    4300014: cofee shop
+    4300016: middle house
+    4300018: petrol station
+    4300020: wide shops building
+    4300022: high building
+    4300024: glass syskraper
+    4300026: bus stop
+    4300028: billboard
+    4300030: wide buiding
+    4300032: wide building
+    4300034: recycle bin
+    4300036: cap
+    4300038: wheels
+    4300040: curve road
+    4300042: t junction road
+    4300044: cross junction road
+    4300046: straight road
+    4300048: t junction road001
+    4300050: street phone
+    4300052: traffic light part
+    4300054: traffic light
+    4300056: pillar
+    4300058: light head 2
+    4300060: light head 003
+    4300062: rhombus traffic sign
+    4300064: polygon traffic sign
+    4300066: square traffic sign
+    4300068: triangle traffic sign
+    4300070: circular traffic sign
+    4300072: head
+    4300074: garbage bin
+    4300076: sewage head
+    4300078: 'traffic '
+    4300080: hydrant
+    4300082: wide traffic signs
+    4300084: second prohibition
+    4300086: traffic logo
+    4300088: traffic prohibition
+    4300090: air vinte
+    4300092: urban building
+    4300094: door
+    4300096: post box
+    4300098: envelope
+    4300100: polygon traffic sign001
+    4300102: square traffic sign001
+    4300104: triangle traffic sign001
+    4300106: circular traffic sign001
+    4300108: rhombus traffic sign001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

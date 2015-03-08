@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 0d93ad3d0ff614fc1b5038e8bb15e876
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: B_L_Clavicle
+    100002: B_L_Claw1
+    100004: B_L_Claw2
+    100006: B_L_Foot
+    100008: B_L_Forearm
+    100010: B_L_Hand
+    100012: B_L_Thigh
+    100014: B_L_UpperArm
+    100016: B_Pelvis
+    100018: B_R_Clavicle
+    100020: B_R_Claw1
+    100022: B_R_Claw2
+    100024: B_R_Foot
+    100026: B_R_Forearm
+    100028: B_R_Hand
+    100030: B_R_Thigh
+    100032: B_R_UpperArm
+    100034: B_Spine
+    100036: //RootNode
+    100038: Mesh_ConstructorBot
+    100040: PositionLocator
+    100042: Bip01
+    100044: Bip01 L Clavicle
+    100046: Bip01 L Claw1
+    100048: Bip01 L Claw2
+    100050: Bip01 L Forearm
+    100052: Bip01 L Hand
+    100054: Bip01 L UpperArm
+    100056: Bip01 Neck
+    100058: Bip01 Pelvis
+    100060: Bip01 R Clavicle
+    100062: Bip01 R Claw1
+    100064: Bip01 R Claw2
+    100066: Bip01 R Forearm
+    100068: Bip01 R Hand
+    100070: Bip01 R UpperArm
+    100072: Bip01 Spine
+    400000: B_L_Clavicle
+    400002: B_L_Claw1
+    400004: B_L_Claw2
+    400006: B_L_Foot
+    400008: B_L_Forearm
+    400010: B_L_Hand
+    400012: B_L_Thigh
+    400014: B_L_UpperArm
+    400016: B_Pelvis
+    400018: B_R_Clavicle
+    400020: B_R_Claw1
+    400022: B_R_Claw2
+    400024: B_R_Foot
+    400026: B_R_Forearm
+    400028: B_R_Hand
+    400030: B_R_Thigh
+    400032: B_R_UpperArm
+    400034: B_Spine
+    400036: //RootNode
+    400038: Mesh_ConstructorBot
+    400040: PositionLocator
+    400042: Bip01
+    400044: Bip01 L Clavicle
+    400046: Bip01 L Claw1
+    400048: Bip01 L Claw2
+    400050: Bip01 L Forearm
+    400052: Bip01 L Hand
+    400054: Bip01 L UpperArm
+    400056: Bip01 Neck
+    400058: Bip01 Pelvis
+    400060: Bip01 R Clavicle
+    400062: Bip01 R Claw1
+    400064: Bip01 R Claw2
+    400066: Bip01 R Forearm
+    400068: Bip01 R Hand
+    400070: Bip01 R UpperArm
+    400072: Bip01 Spine
+    2300000: Mesh_ConstructorBot
+    3300000: Mesh_ConstructorBot
+    4300000: Mesh_ConstructorBot
+    7400000: Take 001
+    11100000: //RootNode
+    13700000: Mesh_ConstructorBot
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 0
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: 8614d271eb5674d5ba024dec87db6168
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Body
+    100002: Box03
+    100004: Box04
+    100006: Box09
+    100008: Box10
+    100010: Box11
+    100012: Box12
+    100014: Box13
+    100016: Box14
+    100018: CrabHead
+    100020: //RootNode
+    100022: CrabSentinel_Mesh
+    100024: Cylinder06
+    100026: Foot_FL
+    100028: Foot_FR
+    100030: Foot_RL
+    100032: Foot_RR
+    100034: Head
+    100036: IK Chain01
+    100038: IK Chain02
+    100040: IK Chain03
+    100042: IK Chain04
+    100044: Leg_FL
+    100046: Leg_FR
+    100048: Leg_RL
+    100050: Leg_RR
+    100052: Point01
+    100054: Point02
+    100056: Point03
+    100058: Point04
+    100060: PositionLocator
+    100062: Root
+    400000: Body
+    400002: Box03
+    400004: Box04
+    400006: Box09
+    400008: Box10
+    400010: Box11
+    400012: Box12
+    400014: Box13
+    400016: Box14
+    400018: CrabHead
+    400020: //RootNode
+    400022: CrabSentinel_Mesh
+    400024: Cylinder06
+    400026: Foot_FL
+    400028: Foot_FR
+    400030: Foot_RL
+    400032: Foot_RR
+    400034: Head
+    400036: IK Chain01
+    400038: IK Chain02
+    400040: IK Chain03
+    400042: IK Chain04
+    400044: Leg_FL
+    400046: Leg_FR
+    400048: Leg_RL
+    400050: Leg_RR
+    400052: Point01
+    400054: Point02
+    400056: Point03
+    400058: Point04
+    400060: PositionLocator
+    400062: Root
+    2300000: Box03
+    2300002: Box04
+    2300004: Box09
+    2300006: Box10
+    2300008: Box11
+    2300010: Box12
+    2300012: Box13
+    2300014: Box14
+    2300016: CrabHead
+    2300018: Cylinder06
+    3300000: Box03
+    3300002: Box04
+    3300004: Box09
+    3300006: Box10
+    3300008: Box11
+    3300010: Box12
+    3300012: Box13
+    3300014: Box14
+    3300016: CrabHead
+    3300018: Cylinder06
+    4300000: Cylinder06
+    4300002: Box04
+    4300004: Box03
+    4300006: Cylinder05
+    4300008: Box09
+    4300010: Box10
+    4300012: Box11
+    4300014: Box12
+    4300016: Box13
+    4300018: Box14
+    4300020: CrabSentinel_Mesh
+    4300022: CrabHead
+    7400000: Take 001
+    11100000: //RootNode
+    13700000: CrabSentinel_Mesh
+  materials:
+    importMaterials: 0
+    materialName: 3
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 180
+    splitTangentsAcrossUV: 0
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

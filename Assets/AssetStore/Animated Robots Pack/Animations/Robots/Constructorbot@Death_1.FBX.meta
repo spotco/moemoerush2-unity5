@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: ffd628eb1cb3a4082a18d269da43e8aa
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: B_L_Clavicle
+    100002: B_L_Claw1
+    100004: B_L_Claw2
+    100006: B_L_Foot
+    100008: B_L_Forearm
+    100010: B_L_Hand
+    100012: B_L_Thigh
+    100014: B_L_UpperArm
+    100016: B_Pelvis
+    100018: B_R_Clavicle
+    100020: B_R_Claw1
+    100022: B_R_Claw2
+    100024: B_R_Foot
+    100026: B_R_Forearm
+    100028: B_R_Hand
+    100030: B_R_Thigh
+    100032: B_R_UpperArm
+    100034: B_Spine
+    100036: //RootNode
+    100038: Mesh_ConstructorBot
+    100040: PositionLocator
+    400000: B_L_Clavicle
+    400002: B_L_Claw1
+    400004: B_L_Claw2
+    400006: B_L_Foot
+    400008: B_L_Forearm
+    400010: B_L_Hand
+    400012: B_L_Thigh
+    400014: B_L_UpperArm
+    400016: B_Pelvis
+    400018: B_R_Clavicle
+    400020: B_R_Claw1
+    400022: B_R_Claw2
+    400024: B_R_Foot
+    400026: B_R_Forearm
+    400028: B_R_Hand
+    400030: B_R_Thigh
+    400032: B_R_UpperArm
+    400034: B_Spine
+    400036: //RootNode
+    400038: Mesh_ConstructorBot
+    400040: PositionLocator
+    4300000: Mesh_ConstructorBot
+    7400000: Take 001
+    7400002: Death_1
+    11100000: //RootNode
+    13700000: Mesh_ConstructorBot
+  materials:
+    importMaterials: 0
+    materialName: 3
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 8
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Death_1
+      takeName: 
+      firstFrame: 1
+      lastFrame: 60
+      wrapMode: 8
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 0
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

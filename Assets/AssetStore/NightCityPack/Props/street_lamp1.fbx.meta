@@ -1,0 +1,245 @@
+fileFormatVersion: 2
+guid: 34fbf600f9643294abc7e711b29fbb3c
+labels:
+- Hardsurface
+- Lowpoly
+- Prop
+- Props
+- Buildings
+- Building
+- Mobile
+- Japan
+- House
+- Construction
+- Skyscraper
+- Highrise
+- Apartment
+- Tower
+- City
+- Town
+- Matropoly
+- Banners
+- Signs
+- Trafficlights
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: barierki_hp
+    100002: barierki_hp_001
+    100004: barierki_lp
+    100006: barierki_lp_cale
+    100008: barierki_lp_cale_001
+    100010: barierki_lp_cale_002
+    100012: barierki_lp_cale_003
+    100014: barierki_lp_cale_gora
+    100016: barierki_lp_cale_gora_optymalizacja
+    100018: barierki_lp_cale_gora_optymalizacja_001
+    100020: barierki_lp_cale_gora_optymalizacja_003
+    100022: barierki_lp_cale_gora_optymalizacja_004
+    100024: barierki_lp_cale_gora_optymalizacja_005
+    100026: barierki_lp_cale_gora_optymalizacja_2
+    100028: barrier2_wzozec
+    100030: Cube
+    100032: Cube_001
+    100034: Cube_002
+    100036: Cube_003
+    100038: Cube_004
+    100040: Cube_005
+    100042: droga_lp
+    100044: droga_lp_plaskie
+    100046: mur
+    100048: Plane
+    100050: //RootNode
+    100052: track1segment_001_002
+    100054: tunel
+    100056: tunel_001
+    100058: wiadukt_hp
+    100060: wiadukt_lp
+    100062: wiadukt_lp_001
+    100064: wiadukt_lp_cale
+    400000: barierki_hp
+    400002: barierki_hp_001
+    400004: barierki_lp
+    400006: barierki_lp_cale
+    400008: barierki_lp_cale_001
+    400010: barierki_lp_cale_002
+    400012: barierki_lp_cale_003
+    400014: barierki_lp_cale_gora
+    400016: barierki_lp_cale_gora_optymalizacja
+    400018: barierki_lp_cale_gora_optymalizacja_001
+    400020: barierki_lp_cale_gora_optymalizacja_003
+    400022: barierki_lp_cale_gora_optymalizacja_004
+    400024: barierki_lp_cale_gora_optymalizacja_005
+    400026: barierki_lp_cale_gora_optymalizacja_2
+    400028: barrier2_wzozec
+    400030: Cube
+    400032: Cube_001
+    400034: Cube_002
+    400036: Cube_003
+    400038: Cube_004
+    400040: Cube_005
+    400042: droga_lp
+    400044: droga_lp_plaskie
+    400046: mur
+    400048: Plane
+    400050: //RootNode
+    400052: track1segment_001_002
+    400054: tunel
+    400056: tunel_001
+    400058: wiadukt_hp
+    400060: wiadukt_lp
+    400062: wiadukt_lp_001
+    400064: wiadukt_lp_cale
+    2300000: barierki_hp
+    2300002: barierki_hp_001
+    2300004: barierki_lp
+    2300006: barierki_lp_cale
+    2300008: barierki_lp_cale_001
+    2300010: barierki_lp_cale_002
+    2300012: barierki_lp_cale_003
+    2300014: barierki_lp_cale_gora
+    2300016: barierki_lp_cale_gora_optymalizacja
+    2300018: barierki_lp_cale_gora_optymalizacja_001
+    2300020: barierki_lp_cale_gora_optymalizacja_003
+    2300022: barierki_lp_cale_gora_optymalizacja_004
+    2300024: barierki_lp_cale_gora_optymalizacja_005
+    2300026: barierki_lp_cale_gora_optymalizacja_2
+    2300028: barrier2_wzozec
+    2300030: Cube
+    2300032: Cube_001
+    2300034: Cube_002
+    2300036: Cube_003
+    2300038: Cube_004
+    2300040: Cube_005
+    2300042: droga_lp
+    2300044: droga_lp_plaskie
+    2300046: mur
+    2300048: Plane
+    2300050: track1segment_001_002
+    2300052: tunel
+    2300054: tunel_001
+    2300056: wiadukt_hp
+    2300058: wiadukt_lp
+    2300060: wiadukt_lp_001
+    2300062: wiadukt_lp_cale
+    2300064: //RootNode
+    3300000: barierki_hp
+    3300002: barierki_hp_001
+    3300004: barierki_lp
+    3300006: barierki_lp_cale
+    3300008: barierki_lp_cale_001
+    3300010: barierki_lp_cale_002
+    3300012: barierki_lp_cale_003
+    3300014: barierki_lp_cale_gora
+    3300016: barierki_lp_cale_gora_optymalizacja
+    3300018: barierki_lp_cale_gora_optymalizacja_001
+    3300020: barierki_lp_cale_gora_optymalizacja_003
+    3300022: barierki_lp_cale_gora_optymalizacja_004
+    3300024: barierki_lp_cale_gora_optymalizacja_005
+    3300026: barierki_lp_cale_gora_optymalizacja_2
+    3300028: barrier2_wzozec
+    3300030: Cube
+    3300032: Cube_001
+    3300034: Cube_002
+    3300036: Cube_003
+    3300038: Cube_004
+    3300040: Cube_005
+    3300042: droga_lp
+    3300044: droga_lp_plaskie
+    3300046: mur
+    3300048: Plane
+    3300050: track1segment_001_002
+    3300052: tunel
+    3300054: tunel_001
+    3300056: wiadukt_hp
+    3300058: wiadukt_lp
+    3300060: wiadukt_lp_001
+    3300062: wiadukt_lp_cale
+    3300064: //RootNode
+    4300000: Cube_005
+    4300002: Cube_003
+    4300004: wiadukt_lp_cale
+    4300006: Plane
+    4300008: tunel_001
+    4300010: Cube_002
+    4300012: barierki_lp_cale_gora_optymalizacja_005
+    4300014: barierki_lp_cale_gora_optymalizacja_004
+    4300016: barierki_lp_cale_gora_optymalizacja_003
+    4300018: barierki_lp_cale_gora_optymalizacja_001
+    4300020: barierki_lp_cale_gora_optymalizacja_2
+    4300022: barierki_lp_cale_gora_optymalizacja
+    4300024: barrier2_wzozec
+    4300026: mur
+    4300028: tunel
+    4300030: wiadukt_lp_001
+    4300032: wiadukt_lp
+    4300034: wiadukt_hp
+    4300036: droga_lp_plaskie
+    4300038: barierki_lp_cale_gora
+    4300040: barierki_lp_cale_003
+    4300042: barierki_lp_cale_002
+    4300044: barierki_lp_cale_001
+    4300046: barierki_lp_cale
+    4300048: barierki_hp_001
+    4300050: barierki_lp
+    4300052: Cube_004
+    4300054: barierki_hp
+    4300056: Cube_001
+    4300058: Cube
+    4300060: track1segment_001_002
+    4300062: droga_lp
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.20000005
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
