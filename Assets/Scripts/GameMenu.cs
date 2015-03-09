@@ -18,15 +18,18 @@ public class GameMenu : MonoBehaviour {
 
 	[SerializeField] private GameObject _home_menu;
 	[SerializeField] private GameObject _prep_menu;
+	[SerializeField] private GameObject _loading_menu;
 
 	[SerializeField] private Text _file_desc;
 	[SerializeField] private Text _connect_desc;
-	private string _selected_file_path = null;
+
+	private OnNextUpdater _on_next_update = new OnNextUpdater();
 
 	public enum GameMenuMode {
 		HomeMenu,
 		FilePicker,
-		PrepMenu
+		PrepMenu,
+		Loading
 	}
 	[NonSerialized] private GameMenuMode _current_mode;
 
@@ -36,20 +39,18 @@ public class GameMenu : MonoBehaviour {
 		_import_button.i_initialize(_cursor.gameObject,()=>{
 			_current_mode = GameMenuMode.FilePicker;
 			_file_browser.pick_file((string filepath)=>{
-				_current_mode = GameMenuMode.PrepMenu;
-				_selected_file_path = filepath;
-
-				WavReader test = new WavReader(_selected_file_path);
-				test.readWav();
-				Debug.Log (test.info());
-				/*for (int i = 0; i < 100; i++) {
-					Debug.Log(string.Format("{0}-{1}",test.getChannel(false)[i],test.getChannel(true)[i]));
-				}*/
-				Debug.Log (test.getChannel(false).Count);
-
-				_sceneref._music.clip = test.getAudioClip();
-				_sceneref._music.Play();
-
+				_current_mode = GameMenuMode.Loading;
+				this.i_update();
+				_on_next_update.CallOnNextUpdate(()=>{
+					_on_next_update.CallOnNextUpdate(()=>{
+						WavReader test = new WavReader(filepath);
+						test.readWav(); //takes a while
+						_sceneref._music.clip = test.getAudioClip();
+						_sceneref._music.Play();
+						_file_desc.text = string.Format("file:\n{0}",filepath);
+						_current_mode = GameMenuMode.PrepMenu;
+					});
+				});
 			});
 		});
 		_current_mode = GameMenuMode.HomeMenu;
@@ -58,11 +59,7 @@ public class GameMenu : MonoBehaviour {
 	}
 
 	public void i_update() {
-		if (_sceneref._music.clip != null) {
-			//Debug.Log (_sceneref._music.clip.loadState);
-		}
-
-
+		_on_next_update.UpdateTick();
 		if (_current_mode == GameMenuMode.FilePicker) {
 			Cursor.visible = true;
 			_ui_collider.gameObject.SetActive(false);
@@ -88,18 +85,23 @@ public class GameMenu : MonoBehaviour {
 			if (_current_mode == GameMenuMode.HomeMenu) {
 				_home_menu.SetActive(true);
 				_prep_menu.SetActive(false);
+				_loading_menu.SetActive(false);
 
 			} else if (_current_mode == GameMenuMode.PrepMenu) {
 				_home_menu.SetActive(false);
 				_prep_menu.SetActive(true);
+				_loading_menu.SetActive(false);
 
 				if (Input.GetKeyUp(KeyCode.Space)) {
 					_sceneref._mode = SceneRef.SceneMode.GameEngine;
 				}
+			} else if (_current_mode == GameMenuMode.Loading) {
+				_home_menu.SetActive(false);
+				_prep_menu.SetActive(false);
+				_loading_menu.SetActive(true);
 			}
 		}
 
-		_file_desc.text = string.Format("file:\n{0}",_selected_file_path==null?"None":_selected_file_path);
 		_connect_desc.text = string.Format("rift connected ({0})\nwiimote (connected:{1} / calibrated:{2})",Ovr.Hmd.Detect(),_sceneref._wii_model.connected_count(),_sceneref._wii_model.calibrated_count());
 	}
 }

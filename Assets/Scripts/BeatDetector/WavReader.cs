@@ -114,11 +114,6 @@ namespace BeatProcessor
 				rtv.Add((((float)lDataList[i]) + 32767.0f)/65534.0f);
 				rtv.Add((((float)rDataList[i]) + 32767.0f)/65534.0f);
 			}
-
-			for (int i = 0; i < 50; i+=2) {
-				Debug.Log (string.Format("{0}-{1}",rtv[i],rtv[i+1]));
-			}
-
 			return rtv.ToArray();
 		}
 		
