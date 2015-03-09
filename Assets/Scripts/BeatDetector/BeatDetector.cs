@@ -21,35 +21,31 @@ namespace BeatProcessor
 		//         mp3 - 0 not supported yet
 		// Modifies the given List<long>, put beats int it
 		// Returns the length of music in milisecond.
-		public static long outputBeats(string filename, short format, List<long> beats){
+		public static long outputBeats(WavReader inWav, List<long> beats){
 
 			List<short> left = new List<short> ();
 			List<short> right = new List<short> ();
 			WavHeader header = new WavHeader ();
 
-			if (format == 1) {
-				WavReader inWav = new WavReader (filename);
-				inWav.readWav ();
-				left = inWav.getChannel (true);
-				right = inWav.getChannel (false);
-				header = inWav.getHeader ();
-			} else {
-				//TODO: MP3 converting	
-			}
+			inWav.readWav ();
+			left = inWav.getChannel (true);
+			right = inWav.getChannel (false);
+			header = inWav.getHeader ();
 
 			List<short> bass = BeatDetector.bandPassFilter40_80 (left);
 			bass = BeatDetector.evelopeDetector (bass, (int) header.sampleRate);
 			BeatDetector.AverageBox (bass);
 			bass = BeatDetector.differentiate (bass);
 			bass = BeatDetector.findMax (bass, (int) header.sampleRate);
-			
+
 			List<short> drum = BeatDetector.bandPassFilter200_400 (left);
 			drum = BeatDetector.evelopeDetector (drum, (int) header.sampleRate);
 			BeatDetector.AverageBox (drum);
 			drum = BeatDetector.differentiate (drum);
 			drum = BeatDetector.findMax (drum, (int) header.sampleRate);
 
-			List<short> output = BeatDetector.combine (bass, drum);
+			//List<short> output = BeatDetector.combine (bass, drum);
+			List<short> output = bass;
 			output = BeatDetector.findMax (output, (int) header.sampleRate);
 
 			return BeatDetector.outputBeatMap (output, (int) header.sampleRate, beats);

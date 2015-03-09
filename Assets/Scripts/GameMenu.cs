@@ -44,9 +44,13 @@ public class GameMenu : MonoBehaviour {
 				_on_next_update.CallOnNextUpdate(()=>{
 					_on_next_update.CallOnNextUpdate(()=>{
 						WavReader test = new WavReader(filepath);
-						test.readWav(); //takes a while
+						
+						test.readWav();
 						_sceneref._music.clip = test.getAudioClip();
-						_sceneref._music.Play();
+						test.getBeatTimings();
+						
+						_sceneref._wav_reader = test;
+						
 						_file_desc.text = string.Format("file:\n{0}",filepath);
 						_current_mode = GameMenuMode.PrepMenu;
 					});
@@ -54,8 +58,6 @@ public class GameMenu : MonoBehaviour {
 			});
 		});
 		_current_mode = GameMenuMode.HomeMenu;
-
-
 	}
 
 	public void i_update() {

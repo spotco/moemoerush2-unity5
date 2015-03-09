@@ -37,11 +37,8 @@ public class CountDown : MonoBehaviour {
 			currentState = 1;
 		}else if(preparing >= PREPARE_INTERVAL * 10000L && currentState == 1){
 			// TODO: play the music
-			Debug.Log ("Start");
-
+			/*
 			AudioSource audio = _game._sceneref._music.GetComponent<AudioSource>();
-			//while (!audio.clip.isReadyToPlay) {}
-
 			audio.Play ();
 
 			one.gameObject.SetActive(false);
@@ -50,6 +47,7 @@ public class CountDown : MonoBehaviour {
 			_game._sceneref._ui._count_down.gameObject.SetActive(false);
 			prepareTime = 0;
 			_game.musicStartTime = DateTime.Now.ToFileTime();
+			*/
 		}
 	}
 }

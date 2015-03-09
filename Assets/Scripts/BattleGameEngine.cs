@@ -10,19 +10,12 @@ public enum ControllerHand {
 };
 
 public enum BattleGameEngineMode {
-	Menu,
-	Import,
 	GamePrepare,
 	GamePlay,
-	Pause,
 	End
 };
 
 public class BattleGameEngine : MonoBehaviour {
-	public List<long> beats;
-	public long musicLength;
-	public long musicStartTime;
-
 	[NonSerialized] public SceneRef _sceneref;
 	[NonSerialized] public BattleGameEngineMode _current_mode;
 	[NonSerialized] public List<BaseParticle> _particles = new List<BaseParticle>();
@@ -33,13 +26,9 @@ public class BattleGameEngine : MonoBehaviour {
 		foreach(RepeatInstance repinst_itr in _sceneref._repeaters) {
 			repinst_itr.i_initialize(this);
 		}
-		_current_mode = BattleGameEngineMode.Menu;
+		_current_mode = BattleGameEngineMode.GamePrepare;
+		_sceneref._player.i_initialize(this);
 
-		this.beats = new List<long> ();
-
-		// Open Main Menu
-		_sceneref._ui._main_menu.gameObject.SetActive (true);
-		_sceneref._player.gameObject.SetActive(false);
 	}
 	
 	public void i_update() {
@@ -52,28 +41,22 @@ public class BattleGameEngine : MonoBehaviour {
 			foreach (RepeatInstance repinst_itr in _sceneref._repeaters) {
 					repinst_itr.i_update (this);
 			}
-			if(_sceneref._ui._score_manager.isPlayerDead() 
-			   || DateTime.Now.ToFileTime() - musicStartTime >= (musicLength + 1000L) * 10000L){
-				on_key_end();
+			if(_sceneref._ui._score_manager.isPlayerDead()){
+				game_over();
 			}
 		} else if(_current_mode == BattleGameEngineMode.GamePrepare){
 			_sceneref._ui._count_down.i_update();
-			_sceneref._enemies.i_update (this);
-		}
 
-		if (Input.GetKeyUp (KeyCode.S)) {
-			on_key_start ();
-		} else if (Input.GetKeyUp (KeyCode.I)) {
-			on_key_import ();		
-		} else if (Input.GetKeyUp (KeyCode.O)) {
-			on_key_open_filepicker ();		
-		} else if (Input.GetKeyUp (KeyCode.M)) {
-			on_key_menu();		
-		} else if (Input.GetKeyUp(KeyCode.E)) {
-			on_key_end();
-		} else if (Input.GetKeyUp(KeyCode.T)){
-			on_key_trick();
+			if (Input.GetKeyUp(KeyCode.Escape)) {
+				_sceneref._enemies.i_initialize(this);
+				_sceneref._music.Play();
+				_current_mode = BattleGameEngineMode.GamePlay;
+			}
 		}
+	}
+
+	public void game_over() {
+		//Debug.LogError("game over");
 	}
 
 	public void player_shoot(int hand_id) {
@@ -86,8 +69,6 @@ public class BattleGameEngine : MonoBehaviour {
 			_sceneref._enemies.shoot(this,ControllerHand.Right);
 		}
 	}
-
-
 
 	public BaseParticle add_particle(string name) {
 		BaseParticle particle = ((GameObject)Instantiate(Resources.Load(name))).GetComponent<BaseParticle>();
@@ -108,100 +89,6 @@ public class BattleGameEngine : MonoBehaviour {
 				_particles.RemoveAt(i_particle);
 			}
 		}
-	}
-
-	public void on_key_start(){
-		if (_current_mode == BattleGameEngineMode.Menu) {
-			if(beats.Count == 0){
-				// TODO: Message: Please import music!
-				Debug.Log ("Please Import Music!!");
-			}else{
-				_sceneref._ui._main_menu.gameObject.SetActive(false);
-			}
-		} else if (_current_mode == BattleGameEngineMode.End) {
-			_sceneref._ui._score_menu.gameObject.SetActive(false);
-		}
-		_current_mode = BattleGameEngineMode.GamePrepare;
-		_sceneref._ui._score_manager.gameObject.SetActive(true);
-		_sceneref._ui._count_down.i_initialize(this);
-		_sceneref._ui._score_manager.i_initialize();
-		_sceneref._player.gameObject.SetActive(true);
-		_sceneref._enemies.gameObject.SetActive(true);
-		_sceneref._player.i_initialize(this);
-		_sceneref._enemies.i_initialize(this);
-		this.musicStartTime = 0;
-	}
-
-	public void on_key_import(){
-		if (_current_mode == BattleGameEngineMode.Menu) {
-			_current_mode = BattleGameEngineMode.Import;
-			// TODO: display "importing..."
-			Debug.Log("Importing...");
-			_sceneref._ui._main_menu.gameObject.SetActive(false);
-			_sceneref._ui._import_menu.gameObject.SetActive(true);
-		}
-	}
-
-	public void on_key_open_filepicker(){
-		/*
-		if (_current_mode == BattleGameEngineMode.Import) {
-			String filename = EditorUtility.OpenFilePanel("Choose .wav file", "", "wav");
-			AudioSource audio = _sceneref._music.GetComponent<AudioSource>();
-			WWW www = new WWW("file:///" + filename);
-			audio.clip = www.audioClip;
-			try{
-				beats = new List<long>();
-				if(filename.EndsWith(".wav")){
-					musicLength = BeatDetector.outputBeats(filename, 1, beats);
-				}else{
-					Debug.Log ("Only support .wav files");
-					_sceneref._ui._import_menu.wrongFileTypeMessage();
-					return;
-				}
-			}catch(FileNotFoundException e){
-				Debug.Log ("File Not Found: " + filename);
-				_sceneref._ui._import_menu.fileNotFoundMessage();
-				return;
-			}
-			Debug.Log("Import Succeed!");
-			_sceneref._ui._import_menu.successMessage();
-		}
-		*/
-		//_filepicker_open = true;
-	}
-
-	public void on_key_menu(){
-		if (_current_mode == BattleGameEngineMode.Import) {
-			_sceneref._ui._import_menu.gameObject.SetActive(false);
-		} else if (_current_mode == BattleGameEngineMode.End) {
-			_sceneref._ui._score_menu.gameObject.SetActive(false);
-		} else if (_current_mode == BattleGameEngineMode.Pause) {
-
-		}
-		_current_mode = BattleGameEngineMode.Menu;
-		_sceneref._ui._main_menu.gameObject.SetActive(true);
-	}
-
-	public void on_key_end(){
-		if(_current_mode == BattleGameEngineMode.GamePlay){
-			_current_mode = BattleGameEngineMode.End;
-			_sceneref._player.gameObject.SetActive(false);
-			_sceneref._music.GetComponent<AudioSource>().Stop();
-
-			// Destroy all enemy objects
-			_sceneref._enemies.destroy_all_enemies (_sceneref._ui);
-			_sceneref._enemies.gameObject.SetActive(false);
-			int finalScore = _sceneref._ui._score_manager.getScore();
-			_sceneref._ui._score_manager.gameObject.SetActive(false);
-			_sceneref._ui._score_menu.gameObject.SetActive(true);
-			_sceneref._ui._score_menu.setScore(finalScore);
-		}else if(_current_mode == BattleGameEngineMode.Pause){
-
-		}
-	}
-
-	public void on_key_trick(){
-		_sceneref._ui._score_manager.hitSuccess ();
 	}
 }
 

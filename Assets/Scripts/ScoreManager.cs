@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour {
 	public void i_initialize(){
 		score = 0;
 		health = 100;
+		this.gameObject.SetActive(true);
 	}
 	
 	// Update is called once per frame
@@ -22,7 +23,6 @@ public class ScoreManager : MonoBehaviour {
 	}
 	
 	public void hitSuccess(){
-		Debug.Log ("yeah~!");
 		score += 20;
 		health += 1;
 		if (health >= 100) {
@@ -31,7 +31,6 @@ public class ScoreManager : MonoBehaviour {
 	}
 	
 	public void hitFailure(){
-		Debug.Log ("ooooo!!!");
 		health -= 10;
 		if (health <= 0) {
 			health = 0;

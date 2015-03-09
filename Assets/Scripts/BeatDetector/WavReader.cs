@@ -51,7 +51,10 @@ namespace BeatProcessor
 		}
 
 		public bool hasError = false;
+		public bool hasRead = false;
 		public void readWav() {
+			if (hasRead) return;
+			hasRead = true;
 			BinaryReader reader = null;
 			FileStream wavFileStream = null;
 			if (fileName != null) {
@@ -107,7 +110,7 @@ namespace BeatProcessor
 			}
 		}
 
-		private float[] ConvertByteToFloat ()
+		private float[] GetFloatData()
 		{
 			List<float> rtv = new List<float>();
 			for (int i = 0; i < lDataList.Count; i++) {
@@ -116,8 +119,10 @@ namespace BeatProcessor
 			}
 			return rtv.ToArray();
 		}
-		
+
+		private AudioClip _cached_clip;
 		public AudioClip getAudioClip() {
+			if (_cached_clip != null) return _cached_clip;
 			AudioClip clip = AudioClip.Create(
 				"test",
 				Convert.ToInt32(header.dataSize / header.blockSize),
@@ -125,8 +130,17 @@ namespace BeatProcessor
 				Convert.ToInt32(header.sampleRate),
 				false
 			);
-			clip.SetData(ConvertByteToFloat(),0);
+			_cached_clip = clip;
+			clip.SetData(GetFloatData(),0);
 			return clip;
+		}
+
+		private List<long> _cached_values = null;
+		public List<long> getBeatTimings() {
+			if (_cached_values != null) return _cached_values;
+			_cached_values = new List<long>();
+			BeatDetector.outputBeats(this,_cached_values);
+			return _cached_values;
 		}
 
 		public string info() {

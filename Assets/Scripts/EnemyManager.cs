@@ -6,8 +6,6 @@ public class EnemyManager : MonoBehaviour {
 	private List<long> beats;
 	private int currentIndex;
 	private long gameStartTime;
-	private const long INVULN_TIME = 4000L;
-	private const long HIT_TIME = 2000L;
 
 	[SerializeField] MissileEnemy _missile_enemy_proto;
 	[SerializeField] private GameObject _spawn_points_air;
@@ -17,18 +15,24 @@ public class EnemyManager : MonoBehaviour {
 
 	public void i_initialize(BattleGameEngine game) {
 		_missile_enemy_proto.gameObject.SetActive(false);
-		beats = game.beats;
+		beats = game._sceneref._wav_reader.getBeatTimings();
 		currentIndex = 0;
 		gameStartTime = DateTime.Now.ToFileTime();
 	}
 
+	public const long INVULN_TIME = 4000l;
+	public const long HIT_TIME = 1500l;
+	public const long MS_TO_100NS = 10000l;
+	
 	public void i_update(BattleGameEngine game) {
-		if(currentIndex < beats.Count && beats[currentIndex] * 10000L <= DateTime.Now.ToFileTime() - gameStartTime){
-		//if (Input.GetKeyUp(KeyCode.Space) || Util.rand_range(0,100) < 2) {
+		if(currentIndex < beats.Count && 
+		   (beats[currentIndex] * MS_TO_100NS)-INVULN_TIME <= DateTime.Now.ToFileTime() - gameStartTime){
+
 			MissileEnemy neu_enemy = Util.proto_clone(_missile_enemy_proto.gameObject).GetComponent<MissileEnemy>();
 			Vector3 spawn_pos = _spawn_points_air.transform.GetChild(Util.int_random(0,_spawn_points_air.transform.childCount)).position;
-			neu_enemy.i_initialize(game, spawn_pos, INVULN_TIME * 10000L, HIT_TIME * 10000L);
+			neu_enemy.i_initialize(game, spawn_pos, INVULN_TIME * MS_TO_100NS, HIT_TIME * MS_TO_100NS);
 			_enemies.Add(neu_enemy);
+
 			currentIndex++;
 		}
 
@@ -106,15 +110,26 @@ public class BaseEnemy : MonoBehaviour {
 	public bool targetable() {
 		return DateTime.Now.ToFileTime() > _invuln_end_time;
 	}
+
+	private bool _has_played_lockon_sound = false;
 	public virtual void i_update(BattleGameEngine game) {
-		this.transform.position = Vector3.Lerp(_start_position,game._sceneref._player.transform.position,this.t());
+		this.transform.position = Vector3.Lerp(_start_position,game._sceneref._player._explosion_anchor.transform.position,this.t());
 		this.transform.LookAt(game._sceneref._player.transform.position);
+
+		if (_end_time - DateTime.Now.ToFileTime() <= EnemyManager.HIT_TIME * EnemyManager.MS_TO_100NS && !_has_played_lockon_sound) {
+			_has_played_lockon_sound = true;
+			SFXLib.inst.play_sfx(SFXLib.inst.sfx_lockon);
+		}
 	}
 	public virtual bool should_remove(BattleGameEngine game) {
 		return DateTime.Now.ToFileTime() >= _end_time;
 	}
-	public virtual void do_remove_killed(BattleGameEngine game) {}
-	public virtual void do_remove_hit_player(BattleGameEngine game) {}
+	public virtual void do_remove_killed(BattleGameEngine game) {
+		SFXLib.inst.play_sfx(SFXLib.inst.sfx_hit);
+	}
+	public virtual void do_remove_hit_player(BattleGameEngine game) {
+		SFXLib.inst.play_sfx(SFXLib.inst.sfx_explosion);
+	}
 
 	public virtual Vector3 get_center() {
 		return this.transform.position;

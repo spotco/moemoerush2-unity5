@@ -19,10 +19,12 @@ public class MissileEnemy : BaseEnemy {
 
 	public override void do_remove_killed(BattleGameEngine game) {
 		game.add_particle(ParticleSystemWrapperParticle.EXPLOSION).set_position(this.transform.position);
+		base.do_remove_killed(game);
 
 	}
 	public override void do_remove_hit_player(BattleGameEngine game) {
 		game.add_particle(ParticleSystemWrapperParticle.EXPLOSION).set_position(game._sceneref._player._explosion_anchor.transform.position);
+		base.do_remove_hit_player(game);
 
 	}
 

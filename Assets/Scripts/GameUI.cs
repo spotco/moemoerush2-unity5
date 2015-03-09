@@ -9,8 +9,6 @@ public class GameUI : MonoBehaviour {
 	[SerializeField] public EnemyFloatingTargetingUI _proto_target_reticule;
 	[SerializeField] public PlayerTargetReticuleUI _proto_player_target_reticule;
 	[SerializeField] public ScoreManager _score_manager;
-	[SerializeField] public GameMenu _main_menu;
-	[SerializeField] public ImportMenu _import_menu;
 	[SerializeField] public ScoreMenu _score_menu;
 	[SerializeField] public CountDown _count_down;
 
@@ -24,6 +22,9 @@ public class GameUI : MonoBehaviour {
 	
 		_left_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
 		_right_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
+
+		_score_manager.i_initialize();
+		_count_down.i_initialize(game);
 	}
 	
 	private Dictionary<int,EnemyFloatingTargetingUI> _objid_to_targetingui = new Dictionary<int, EnemyFloatingTargetingUI>();

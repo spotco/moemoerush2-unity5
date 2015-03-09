@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using BeatProcessor;
 
 public class SceneRef : MonoBehaviour {
 
@@ -21,6 +22,8 @@ public class SceneRef : MonoBehaviour {
 
 	[NonSerialized] public SocketServer _socket_server;
 
+	[NonSerialized] public WavReader _wav_reader;
+
 	public enum SceneMode {
 		GameMenu,
 		GameEngine
@@ -36,19 +39,37 @@ public class SceneRef : MonoBehaviour {
 		_socket_server.i_initialize(this);
 		_wii_model.i_initialize();
 
-		this.gameObject.AddComponent<BattleGameEngine>().i_initialize(this);
+
 		this._main_menu.i_initialize(this);
 		this.set_mode_visible();
+
+		/*
+		if (true) {
+			WavReader test = new WavReader("/Users/spotco/moemoerush/test.wav");
+			test.readWav();
+			this._music.clip = test.getAudioClip();
+			test.getAudioClip();
+			test.getBeatTimings();
+			this._wav_reader = test;
+			this._mode = SceneRef.SceneMode.GameEngine;
+		}
+		*/
 	}
 
 	private void set_mode_visible() {
 		if (_mode == SceneMode.GameMenu) {
 			_main_menu.gameObject.SetActive(true);
 			_ovr_game_camera.gameObject.SetActive(false);
+			if (this.game() != null) {
+				Destroy(this.game());
+			}
 
 		} else if (_mode == SceneMode.GameEngine) {
 			_main_menu.gameObject.SetActive(false);
 			_ovr_game_camera.gameObject.SetActive(true);
+			if (this.game() == null) {
+				this.gameObject.AddComponent<BattleGameEngine>().i_initialize(this);
+			}
 		}
 	}
 
