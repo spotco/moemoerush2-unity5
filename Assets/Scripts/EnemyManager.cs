@@ -125,7 +125,7 @@ public class BaseEnemy : MonoBehaviour {
 		return DateTime.Now.ToFileTime() >= _end_time;
 	}
 	public virtual void do_remove_killed(BattleGameEngine game) {
-		SFXLib.inst.play_sfx(SFXLib.inst.sfx_hit);
+		SFXLib.inst.enqueue_sfx(SFXLib.inst.sfx_hit);
 	}
 	public virtual void do_remove_hit_player(BattleGameEngine game) {
 		SFXLib.inst.play_sfx(SFXLib.inst.sfx_explosion);

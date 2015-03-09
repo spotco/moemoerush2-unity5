@@ -15,6 +15,18 @@ public enum BattleGameEngineMode {
 	End
 };
 
+/*
+TODO -- 
+Prepmenu to game start (+ovr) transition
+Death anim and menu
+ground type enemy
+game end anim and menu
+
+score flyouts
+hit screenshake and pause
+
+wiimote ir pointing algorithm
+*/
 public class BattleGameEngine : MonoBehaviour {
 	[NonSerialized] public SceneRef _sceneref;
 	[NonSerialized] public BattleGameEngineMode _current_mode;
