@@ -10,14 +10,14 @@
 	<string>Wiimote</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>AF47779C2B3BF3598F2DA72F0A99085AD30B80A9</key>
+		<key>C523BB10CA1C61EA0C88E915A84C1FEC59C676AD</key>
 		<string>github.com:spotco/moemoerush2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Wiimote/Wiimote.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>AF47779C2B3BF3598F2DA72F0A99085AD30B80A9</key>
+		<key>C523BB10CA1C61EA0C88E915A84C1FEC59C676AD</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>AF47779C2B3BF3598F2DA72F0A99085AD30B80A9</string>
+	<string>C523BB10CA1C61EA0C88E915A84C1FEC59C676AD</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>AF47779C2B3BF3598F2DA72F0A99085AD30B80A9</string>
+			<string>C523BB10CA1C61EA0C88E915A84C1FEC59C676AD</string>
 			<key>IDESourceControlWCCName</key>
 			<string>moemoerush</string>
 		</dict>

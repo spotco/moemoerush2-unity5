@@ -86,7 +86,7 @@ public class WiiModelHand : MonoBehaviour {
 	}
 
 	private bool _calibrate_mode = false;
-	private bool _calibrated = false;
+	public bool _calibrated = false;
 	private int _calibration_length = 0;
 
 	private bool _wmp_interpolate_mode = false;

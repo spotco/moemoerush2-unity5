@@ -27,8 +27,6 @@ public class BattleGameEngine : MonoBehaviour {
 	[NonSerialized] public BattleGameEngineMode _current_mode;
 	[NonSerialized] public List<BaseParticle> _particles = new List<BaseParticle>();
 
-	private SocketServer _socket_server;
-
 	public void i_initialize(SceneRef sceneref) {
 		_sceneref = sceneref;
 		_sceneref._ui.i_initialize(this);
@@ -37,10 +35,6 @@ public class BattleGameEngine : MonoBehaviour {
 		}
 		_current_mode = BattleGameEngineMode.Menu;
 
-		_socket_server = this.gameObject.AddComponent<SocketServer>();
-		_socket_server.i_initialize(this);
-
-		_sceneref._wii_model.i_initialize();
 		this.beats = new List<long> ();
 
 		// Open Main Menu
@@ -48,7 +42,7 @@ public class BattleGameEngine : MonoBehaviour {
 		_sceneref._player.gameObject.SetActive(false);
 	}
 	
-	public void Update() {
+	public void i_update() {
 		if (_current_mode == BattleGameEngineMode.GamePlay) {
 			_sceneref._player.i_update (this);
 			_sceneref._enemies.i_update (this);
@@ -173,19 +167,7 @@ public class BattleGameEngine : MonoBehaviour {
 			_sceneref._ui._import_menu.successMessage();
 		}
 		*/
-		_filepicker_open = true;
-	}
-
-	private bool _filepicker_open = false;
-	public void OnGUI() {
-		//Debug.Log ("test");
-		//if (_filepicker_open) {
-			UniFileBrowser.use.OpenFileWindow(OpenFile);
-		//}
-	}
-
-	void OpenFile (string pathToFile) {
-		Debug.Log ("file");
+		//_filepicker_open = true;
 	}
 
 	public void on_key_menu(){

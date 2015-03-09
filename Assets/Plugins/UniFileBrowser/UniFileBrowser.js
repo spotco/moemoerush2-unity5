@@ -756,10 +756,12 @@ private function DrawFileWindow () {
 	}
 	
 	// Cancel button
+	/*
 	if (GUI.Button (Rect(fileWindowRect.width - buttonPositionX - (buttonSize.x+15), fileWindowRect.height - buttonPositionY, buttonSize.x, buttonSize.y),
 					"Cancel") ) {
 		CloseFileWindow();
 	}
+	*/
 	
 	// Open/Save button
 	if (fileType == FileType.Open) {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using System.Linq;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class GameUI : MonoBehaviour {

@@ -70,6 +70,13 @@ public class WiiModel : MonoBehaviour {
 		return id == _right_hand._wiimote_id;
 	}
 
+	public int connected_count() {
+		return (_left_hand._wiimote_found?1:0) + (_right_hand._wiimote_found?1:0);
+	}
+	public int calibrated_count() {
+		return ((_left_hand._wiimote_found && _left_hand._calibrated)?1:0) + ((_right_hand._wiimote_found && _right_hand._calibrated)?1:0);
+	}
+
 }
 
 

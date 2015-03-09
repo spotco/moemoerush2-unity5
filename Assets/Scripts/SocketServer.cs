@@ -19,12 +19,12 @@ JSONObject obj = new JSONObject();
 */
 
 public class SocketServer : MonoBehaviour {
-	private BattleGameEngine _game;
+	private SceneRef _sceneref;
 	private CommunicatorServer _socket;
 	private OnNextUpdater _on_next_update = new OnNextUpdater();
 
-	public void i_initialize(BattleGameEngine game) {
-		_game = game;
+	public void i_initialize(SceneRef sceneref) {
+		_sceneref = sceneref;
 
 		_socket = new CommunicatorServer(7001,100,(string val)=>{
 			try {
@@ -35,19 +35,19 @@ public class SocketServer : MonoBehaviour {
 						string button = jason.GetString("b");
 						int id = Convert.ToInt32(jason.GetNumber("id"));
 						if (button == "B") {
-							_game.player_shoot(id);
+							_sceneref.game().player_shoot(id);
 						}
 						
 					} else if (type == "m") {
-						_game._sceneref._wii_model.wmp_report(jason);
+						_sceneref._wii_model.wmp_report(jason);
 					} else if (type == "c") {
-						_game._sceneref._wii_model.wiimote_connect(jason);
+						_sceneref._wii_model.wiimote_connect(jason);
 					} else if (type == "d") {
-						_game._sceneref._wii_model.wiimote_disconnect(jason);
+						_sceneref._wii_model.wiimote_disconnect(jason);
 					} else if (type == "a") {
-						_game._sceneref._wii_model.accel_report(jason);
+						_sceneref._wii_model.accel_report(jason);
 					} else if (type == "i") {
-						_game._sceneref._wii_model.ir_report(jason);
+						_sceneref._wii_model.ir_report(jason);
 					}
 				});
 			} catch {

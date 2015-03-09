@@ -10,9 +10,27 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BeatProcessor
 {
+	public struct WavHeader
+	{
+		public byte[] riffID; // "riff"
+		public uint size;  
+		public byte[] wavID;  // "WAVE"
+		public byte[] fmtID;  // "fmt "
+		public uint fmtSize;
+		public ushort format;
+		public ushort channels;
+		public uint sampleRate;
+		public uint bytePerSec;
+		public ushort blockSize;
+		public ushort bit;
+		public byte[] dataID; // "data"
+		public uint dataSize;
+	}
+
 	public class WavReader
 	{
 		private String fileName; 
@@ -26,10 +44,24 @@ namespace BeatProcessor
 			this.lDataList = new List<short>();
 			this.rDataList = new List<short>();
 		}
-		
+
+		private byte[] bytes;
+		public WavReader(byte[] file) {
+			bytes = file;
+		}
+
+		public bool hasError = false;
 		public void readWav() {
-			FileStream wavFileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-			BinaryReader reader = new BinaryReader(wavFileStream);
+			BinaryReader reader = null;
+			FileStream wavFileStream = null;
+			if (fileName != null) {
+				wavFileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+				reader = new BinaryReader(wavFileStream);
+
+			} else if (bytes != null) {
+				reader = new BinaryReader(new MemoryStream(bytes));
+
+			}
 			header.riffID = reader.ReadBytes(4);
 			header.size = reader.ReadUInt32();
 			header.wavID = reader.ReadBytes(4);
@@ -43,7 +75,19 @@ namespace BeatProcessor
 			header.bit = reader.ReadUInt16();
 			header.dataID = reader.ReadBytes(4);
 			header.dataSize = reader.ReadUInt32();
-			
+
+			if (System.Text.Encoding.UTF8.GetString(header.riffID) != "RIFF" ||
+			    System.Text.Encoding.UTF8.GetString(header.wavID) != "WAVE" ||
+			    System.Text.Encoding.UTF8.GetString(header.fmtID) != "fmt " ||
+			    System.Text.Encoding.UTF8.GetString(header.dataID) != "data") {
+
+				Debug.LogError("WAV PARSE ERROR");
+				hasError = true;
+			} else {
+				hasError = false;
+			}
+
+
 			for (int i = 0; i < header.dataSize / header.blockSize; i++) {
 				try{
 					lDataList.Add((short)reader.ReadUInt16());
@@ -61,6 +105,45 @@ namespace BeatProcessor
 			{
 				wavFileStream.Close();
 			}
+		}
+
+		private float[] ConvertByteToFloat ()
+		{
+			List<float> rtv = new List<float>();
+			for (int i = 0; i < lDataList.Count; i++) {
+				rtv.Add((((float)lDataList[i]) + 32767.0f)/65534.0f);
+				rtv.Add((((float)rDataList[i]) + 32767.0f)/65534.0f);
+			}
+
+			for (int i = 0; i < 50; i+=2) {
+				Debug.Log (string.Format("{0}-{1}",rtv[i],rtv[i+1]));
+			}
+
+			return rtv.ToArray();
+		}
+		
+		public AudioClip getAudioClip() {
+			AudioClip clip = AudioClip.Create(
+				"test",
+				Convert.ToInt32(header.dataSize / header.blockSize),
+				Convert.ToInt32(header.channels),
+				Convert.ToInt32(header.sampleRate),
+				false
+			);
+			clip.SetData(ConvertByteToFloat(),0);
+			return clip;
+		}
+
+		public string info() {
+			return string.Format("[format:{0} channels:{1} sampleRate:{2} bytesPerSec:{3} blockSize:{4} dataSize:{5} ({6} samples)]",
+				header.format,
+				header.channels,
+				header.sampleRate,
+				header.bytePerSec,
+				header.blockSize, 
+				header.dataSize, 
+				header.dataSize / header.blockSize
+			);
 		}
 		
 		public List<short> getChannel(bool left){
