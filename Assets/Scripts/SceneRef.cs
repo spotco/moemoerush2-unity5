@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using BeatProcessor;
@@ -43,17 +43,18 @@ public class SceneRef : MonoBehaviour {
 		this._main_menu.i_initialize(this);
 		this.set_mode_visible();
 
-		/*
+
 		if (true) {
+			/*
 			WavReader test = new WavReader("/Users/spotco/moemoerush/test.wav");
 			test.readWav();
 			this._music.clip = test.getAudioClip();
 			test.getAudioClip();
 			test.getBeatTimings();
 			this._wav_reader = test;
+			*/
 			this._mode = SceneRef.SceneMode.GameEngine;
 		}
-		*/
 	}
 
 	private void set_mode_visible() {

@@ -4,6 +4,13 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider))]
 public class RepeatProto : MonoBehaviour {
 
+
+	public void Start() {
+		if (_remove_back_dist != 0) {
+			Util.transform_position_delta(this.transform,new Vector3(0,0,-_remove_back_dist));
+		}
+	}
+
 	public bool intersects(RepeatProto other) {
 		return this.GetComponent<BoxCollider>().bounds.Intersects(other.GetComponent<BoxCollider>().bounds);
 	}

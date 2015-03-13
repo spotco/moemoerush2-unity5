@@ -15,7 +15,12 @@ public class EnemyManager : MonoBehaviour {
 
 	public void i_initialize(BattleGameEngine game) {
 		_missile_enemy_proto.gameObject.SetActive(false);
-		beats = game._sceneref._wav_reader.getBeatTimings();
+		if (game._sceneref._wav_reader != null) {
+			beats = game._sceneref._wav_reader.getBeatTimings();
+		} else {
+			beats = new List<long>();
+		}
+
 		currentIndex = 0;
 		gameStartTime = DateTime.Now.ToFileTime();
 	}
@@ -67,14 +72,12 @@ public class EnemyManager : MonoBehaviour {
 
 	public void hit_enemy(BattleGameEngine game, BaseEnemy itr_enemy, long time) {
 		itr_enemy.do_remove_killed(game);
-		game._sceneref._ui._score_manager.hitSuccess ();
 		_enemies.RemoveAt(_enemies.IndexOf(itr_enemy));
 		Destroy(itr_enemy.gameObject);
 	}
 
 	public void hit_player(BattleGameEngine game, BaseEnemy itr_enemy, long time){
 		itr_enemy.do_remove_hit_player(game);
-		game._sceneref._ui._score_manager.hitFailure ();
 		_enemies.RemoveAt(_enemies.IndexOf(itr_enemy));
 		Destroy(itr_enemy.gameObject);
 	}

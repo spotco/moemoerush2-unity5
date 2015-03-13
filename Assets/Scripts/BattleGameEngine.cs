@@ -10,7 +10,8 @@ public enum ControllerHand {
 };
 
 public enum BattleGameEngineMode {
-	GamePrepare,
+	PreIntroTransitionStart,
+	IntroTransition,
 	GamePlay,
 	End
 };
@@ -18,14 +19,11 @@ public enum BattleGameEngineMode {
 /*
 TODO -- 
 Prepmenu to game start (+ovr) transition
-Death anim and menu
 ground type enemy
+Death anim and menu
 game end anim and menu
-
-score flyouts
-hit screenshake and pause
-
-wiimote ir pointing algorithm
+combo and low health effects
+animated hand
 */
 public class BattleGameEngine : MonoBehaviour {
 	[NonSerialized] public SceneRef _sceneref;
@@ -38,37 +36,78 @@ public class BattleGameEngine : MonoBehaviour {
 		foreach(RepeatInstance repinst_itr in _sceneref._repeaters) {
 			repinst_itr.i_initialize(this);
 		}
-		_current_mode = BattleGameEngineMode.GamePrepare;
+		_current_mode = BattleGameEngineMode.PreIntroTransitionStart;
 		_sceneref._player.i_initialize(this);
 
+		prep_into_transition();
 	}
-	
+
+	private float _anim_theta = 0;
+	private float _anim_dist = 0;
+	private Vector3 _anim_initial_pos;
+	private Quaternion _anim_initial_rotation;
+	private void prep_into_transition() {
+		_sceneref._player._ovr_root_camera.transform.position = _sceneref._player._ovrcamera_start_anchor.transform.position;
+		_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
+		_anim_dist = Util.vec_dist(Vector3.zero,new Vector3(_sceneref._player._ovr_root_camera.transform.position.x,0,_sceneref._player._ovr_root_camera.transform.position.y));
+
+
+	}
+
+
 	public void i_update() {
-		if (_current_mode == BattleGameEngineMode.GamePlay) {
+		if (_current_mode == BattleGameEngineMode.PreIntroTransitionStart) {
+			_sceneref._ui.i_update (this);
+			_anim_theta += 0.01f;
+			Vector3 neu_pos = new Vector3(Mathf.Cos(_anim_theta)*_anim_dist,_sceneref._player._ovr_root_camera.transform.position.y,Mathf.Sin(_anim_theta)*_anim_dist);
+			_sceneref._player._ovr_root_camera.transform.position = neu_pos;
+			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
+			if (Input.GetKeyUp(KeyCode.Space)) {
+				_current_mode = BattleGameEngineMode.IntroTransition;
+				_anim_initial_pos = _sceneref._player._ovr_root_camera.transform.position;
+				_anim_initial_rotation = _sceneref._player._ovr_root_camera.transform.rotation;
+				_anim_theta = 0;
+			}
+			foreach (RepeatInstance repinst_itr in _sceneref._repeaters) {
+				repinst_itr.i_update (this);
+			}
+			_sceneref._player.set_headless(false);
+
+		} else if (_current_mode == BattleGameEngineMode.IntroTransition) {
+			_sceneref._ui.i_update (this);
+			_anim_theta += 0.0075f;
+			_sceneref._player._ovr_root_camera.transform.position = Util.sin_lerp_vec(_anim_initial_pos,_sceneref._player._ovrcamera_end_anchor.transform.position,_anim_theta);
+			_sceneref._player._ovr_root_camera.transform.rotation = Quaternion.Slerp(_anim_initial_rotation,_sceneref._player._ovrcamera_end_anchor.transform.rotation,Util.sin_lerp(0,1,_anim_theta));
+			if (_anim_theta < 0.3f) {
+				_sceneref._ui.show_countdown_ui(3);
+			} else if (_anim_theta < 0.6f) {
+				_sceneref._ui.show_countdown_ui(2);
+			} else {
+				_sceneref._ui.show_countdown_ui(1);
+			}
+			foreach (RepeatInstance repinst_itr in _sceneref._repeaters) {
+				repinst_itr.i_update (this);
+			}
+			_sceneref._player.set_headless(false);
+
+			if (_anim_theta >= 1) {
+				_sceneref._ui.show_countdown_ui(0);
+				_current_mode = BattleGameEngineMode.GamePlay;
+				_sceneref._enemies.i_initialize(this);
+				//_sceneref._music.Play();
+			}
+		} else if (_current_mode == BattleGameEngineMode.GamePlay) {
 			_sceneref._player.i_update (this);
 			_sceneref._enemies.i_update (this);
 			_sceneref._ui.i_update (this);
 			update_particles ();
-
+			
 			foreach (RepeatInstance repinst_itr in _sceneref._repeaters) {
-					repinst_itr.i_update (this);
+				repinst_itr.i_update (this);
 			}
-			if(_sceneref._ui._score_manager.isPlayerDead()){
-				game_over();
-			}
-		} else if(_current_mode == BattleGameEngineMode.GamePrepare){
-			_sceneref._ui._count_down.i_update();
-
-			if (Input.GetKeyUp(KeyCode.Escape)) {
-				_sceneref._enemies.i_initialize(this);
-				_sceneref._music.Play();
-				_current_mode = BattleGameEngineMode.GamePlay;
-			}
+			_sceneref._player.set_headless(true);
+			
 		}
-	}
-
-	public void game_over() {
-		//Debug.LogError("game over");
 	}
 
 	public void player_shoot(int hand_id) {

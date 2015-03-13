@@ -219,7 +219,7 @@ public class EasyFontTextMesh : MonoBehaviour {
 		cbor.a = pct > bor_cutoff? (pct-bor_cutoff)/(1-bor_cutoff):0;
 		this.FontColorTop = ctop;
 		this.FontColorBottom = cbot;
-		this.OutlineColor = cbor;
+		if (this.EnableOutline) this.OutlineColor = cbor;
 		RefreshMesh(true);
 	}
 

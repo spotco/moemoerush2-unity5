@@ -8,12 +8,16 @@ using System.Linq;
 public class GameUI : MonoBehaviour {
 	[SerializeField] public EnemyFloatingTargetingUI _proto_target_reticule;
 	[SerializeField] public PlayerTargetReticuleUI _proto_player_target_reticule;
-	[SerializeField] public ScoreManager _score_manager;
-	[SerializeField] public ScoreMenu _score_menu;
-	[SerializeField] public CountDown _count_down;
+	[SerializeField] private FadeInOutImage _countdown_3;
+	[SerializeField] private FadeInOutImage _countdown_2;
+	[SerializeField] private FadeInOutImage _countdown_1;
+	[SerializeField] private FadeInOutImage _press_any_key_to_start_flash;
+	[SerializeField] private FadeInOutImage _start_text;
 
-	public PlayerTargetReticuleUI _left_hand_target;
-	public PlayerTargetReticuleUI _right_hand_target;
+	[SerializeField] public IngameHUD _hud;
+
+	[NonSerialized] public PlayerTargetReticuleUI _left_hand_target;
+	[NonSerialized] public PlayerTargetReticuleUI _right_hand_target;
 
 	public void i_initialize(BattleGameEngine game) {
 		_proto_target_reticule.gameObject.SetActive(false);
@@ -23,13 +27,22 @@ public class GameUI : MonoBehaviour {
 		_left_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
 		_right_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
 
-		_score_manager.i_initialize();
-		_count_down.i_initialize(game);
+		_press_any_key_to_start_flash.set_toggle();
 	}
 	
 	private Dictionary<int,EnemyFloatingTargetingUI> _objid_to_targetingui = new Dictionary<int, EnemyFloatingTargetingUI>();
 	private List<int> _objsids_to_remove = new List<int>();
 	public void i_update(BattleGameEngine game) {
+		if (game._current_mode == BattleGameEngineMode.GamePlay) {
+			_hud.gameObject.SetActive(true);
+			_hud.i_update(game);
+			_left_hand_target.gameObject.SetActive(true);
+			_right_hand_target.gameObject.SetActive(true);
+		} else {
+			_hud.gameObject.SetActive(false);
+			_left_hand_target.gameObject.SetActive(false);
+			_right_hand_target.gameObject.SetActive(false);
+		}
 		update_enemy_targeting_uis(game);
 		update_player_targeting_uis(game);
 
@@ -80,10 +93,42 @@ public class GameUI : MonoBehaviour {
 			_objid_to_targetingui.Remove(key);
 		}
 		_objsids_to_remove.Clear();
+		start_text_update();
 	}
 
 	public void destroy_all_enemies_ui(){
 		_objsids_to_remove = new List<int> ();
 		_objid_to_targetingui = new Dictionary<int, EnemyFloatingTargetingUI> ();
+	}
+
+	public void show_countdown_ui(int tar) {
+		_press_any_key_to_start_flash.gameObject.SetActive(false);
+		if (tar == 3) {
+			_countdown_3.show();
+			_countdown_2.hide();
+			_countdown_1.hide();
+		} else if (tar == 2) {
+			_countdown_3.hide();
+			_countdown_2.show();
+			_countdown_1.hide();
+		} else if (tar == 1) {
+			_countdown_3.hide();
+			_countdown_2.hide();
+			_countdown_1.show();
+		} else {
+			_countdown_3.hide();
+			_countdown_2.hide();
+			_countdown_1.hide();
+			_start_text.show();
+			_start_text_show_ct = 50;
+		}
+	}
+
+	private int _start_text_show_ct = 0;
+	private void start_text_update() {
+		_start_text_show_ct = Mathf.Max(_start_text_show_ct-1,0);
+		if (_start_text_show_ct <= 0) {
+			_start_text.hide();
+		}
 	}
 }
