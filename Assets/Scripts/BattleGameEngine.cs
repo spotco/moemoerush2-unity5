@@ -41,6 +41,9 @@ public class BattleGameEngine : MonoBehaviour {
 		_sceneref._player.i_initialize(this);
 
 		prep_into_transition();
+
+		_left_hand_fire_count = FIRE_COUNT_MAX;
+		_right_hand_fire_count = FIRE_COUNT_MAX;
 	}
 
 	private float _anim_theta = 0;
@@ -114,19 +117,51 @@ public class BattleGameEngine : MonoBehaviour {
 				repinst_itr.i_update (this);
 			}
 			_sceneref._player.set_headless(true);
-			
+			update_fire_count();
+		}
+	}
+	
+	public int _left_hand_fire_count = 0;
+	public int _right_hand_fire_count = 0;
+	public const int FIRE_COUNT_MAX = 5;
+	public int _last_fired_time_left = 0;
+	public int _last_fired_time_right = 0;
+	private void update_fire_count() {
+		_last_fired_time_left++;
+		_last_fired_time_right++;
+		if (_last_fired_time_left > 10) {
+			_left_hand_fire_count = Math.Min(_left_hand_fire_count+1,FIRE_COUNT_MAX);
+		}
+		if (_last_fired_time_right > 10) {
+			_right_hand_fire_count = Math.Min(_right_hand_fire_count+1,FIRE_COUNT_MAX);
 		}
 	}
 	
 	public void player_shoot(int hand_id) {
 		if (_current_mode == BattleGameEngineMode.GamePlay) {
 			if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
-				_sceneref._player._left_beam.shoot();
-				_sceneref._enemies.shoot(this,ControllerHand.Left);
-
+				_last_fired_time_left = 0;
+				if (_left_hand_fire_count > 0) {
+					_left_hand_fire_count = _left_hand_fire_count-1;
+					_sceneref._player._left_beam.shoot();
+					_sceneref._enemies.shoot(this,ControllerHand.Left);
+					_sceneref._player.fire_arm(ControllerHand.Left);
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_shoot);
+				} else {
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_buzz);
+				}
+				
 			} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
-				_sceneref._player._right_beam.shoot();
-				_sceneref._enemies.shoot(this,ControllerHand.Right);
+				_last_fired_time_right = 0;
+				if (_right_hand_fire_count > 0) {
+					_right_hand_fire_count = _right_hand_fire_count-1;
+					_sceneref._player._right_beam.shoot();
+					_sceneref._enemies.shoot(this,ControllerHand.Right);
+					_sceneref._player.fire_arm(ControllerHand.Right);
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_shoot);
+				} else {
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_buzz);
+				}
 			}
 		}
 	}

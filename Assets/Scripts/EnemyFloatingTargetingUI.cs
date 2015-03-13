@@ -30,28 +30,42 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 		return this;
 	}
 	
+	private float _sc_anim_ct = 0;
 	private void update_reticule_in_anim() {
-		_reticule_transform.localScale = Util.valv((1.0f+1.0f*_reticule_anim_t)*this.dist_scf());
+		if (_selected) {
+			_sc_anim_ct+= 0.7f;
+		}
+		_reticule_transform.localScale = Util.valv((1.0f+1.0f*_reticule_anim_t)*this.dist_scf()+Mathf.Sin(_sc_anim_ct)*0.25f);
 		Color neu_retic_color = _reticule_image.color;
 		neu_retic_color.a = (1-_reticule_anim_t)*_retic_target_alpha;
 		_reticule_image.color = neu_retic_color;
 	}
 	
+	bool _selected = false;
 	public void i_update(BaseEnemy itr_enemy, BattleGameEngine game) {
 		this.transform.localScale = Util.valv(this.dist_scf(itr_enemy,game));
 		_active = true;
-
+		
+		Color neu_retic_color = _reticule_image.color;
 		if (_left_hand_hit || _right_hand_hit) {
+			_selected = true;
+			neu_retic_color.r = 255.0f/255.0f;
+			neu_retic_color.g = 200.0f/255.0f;
+			neu_retic_color.a = 200.0f/255.0f;
 			_retic_target_alpha = 0.95f;
 		} else {
-			_retic_target_alpha = 0.75f;
+			_selected = false;
+			neu_retic_color.r = 255.0f/255.0f;
+			neu_retic_color.g = 0.0f/255.0f;
+			neu_retic_color.a = 0.0f/255.0f;
+			_retic_target_alpha = 0.65f;
 		}
-		Color neu_retic_color = _reticule_image.color;
+		
 		neu_retic_color.a = _retic_target_alpha;
 		_reticule_image.color = neu_retic_color;
-
+		
 	}
-
+	
 	public bool _left_hand_hit = false;
 	public bool _right_hand_hit = false;
 	private void set_hand_hit(ControllerHand hand, bool val) {
@@ -61,19 +75,19 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 			_right_hand_hit = val;
 		}
 	}
-
+	
 	void OnTriggerEnter(Collider collision) {
 		if (collision.gameObject.GetComponent<PlayerTargetReticuleUI>() != null) set_hand_hit(collision.gameObject.GetComponent<PlayerTargetReticuleUI>()._hand,true);
 	}
-
+	
 	void OnTriggerExit(Collider collision) {
 		if (collision.gameObject.GetComponent<PlayerTargetReticuleUI>() != null) set_hand_hit(collision.gameObject.GetComponent<PlayerTargetReticuleUI>()._hand,false);
 	}
-
+	
 	public SphereCollider get_collider() {
 		return this.GetComponent<SphereCollider>();
 	}
-
+	
 	private float _last_dist_scf = 0;
 	private float dist_scf() { return _last_dist_scf; }
 	private float dist_scf(BaseEnemy itr_enemy, BattleGameEngine game) {
@@ -99,6 +113,7 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 			update_reticule_in_anim();
 			
 		} else if (_current_mode == EnemyFloatingTargetingUIMode.Idle) {
+			update_reticule_in_anim();
 			
 		} else if (_current_mode == EnemyFloatingTargetingUIMode.FadeOut) {
 			_reticule_anim_t = Mathf.Clamp(_reticule_anim_t+0.2f,0,1);

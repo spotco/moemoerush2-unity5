@@ -44,7 +44,7 @@ public class Util {
 	
 	public static GameObject proto_clone(GameObject proto) {
 		GameObject rtv = ((GameObject)UnityEngine.Object.Instantiate(proto));
-		rtv.transform.parent = proto.transform.parent;
+		rtv.transform.SetParent(proto.transform.parent);
 		rtv.transform.localScale = proto.transform.localScale;
 		rtv.transform.localPosition = proto.transform.localPosition;
 		rtv.transform.localRotation = proto.transform.localRotation;

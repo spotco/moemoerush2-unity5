@@ -15,6 +15,8 @@ public class SFXLib : MonoBehaviour {
 	[SerializeField] public AudioClip sfx_miss;
 	[SerializeField] public AudioClip sfx_explosion;
 	[SerializeField] public AudioClip sfx_lockon;
+	[SerializeField] public AudioClip sfx_buzz;
+	[SerializeField] public AudioClip sfx_shoot;
 
 	public void play_sfx(AudioClip tar) {
 		this.GetComponent<AudioSource>().PlayOneShot(tar);

@@ -45,6 +45,21 @@ public class PlayerCharacter : MonoBehaviour {
 		this.initialize_head_bob();
 
 		play_anim(ANIM_SPRINT);
+
+		_left_arm_start_z = _left_arm.transform.localPosition.z;
+		_right_arm_start_z = _left_arm.transform.localPosition.z;
+		_left_arm_actual_z = _left_arm_start_z;
+		_right_arm_actual_z = _right_arm_start_z;
+	}
+
+	private float _left_arm_start_z, _right_arm_start_z;
+	private float _left_arm_actual_z, _right_arm_actual_z;
+	public void fire_arm(ControllerHand hand) {
+		if (hand == ControllerHand.Left) {
+			_left_arm_actual_z -= 10.0f;
+		} else if (hand == ControllerHand.Right) {
+			_right_arm_actual_z -= 10.0f;
+		}
 	}
 
 	public void i_update(BattleGameEngine game) {
@@ -67,6 +82,15 @@ public class PlayerCharacter : MonoBehaviour {
 		this.update_head_bob(10.0f);
 
 		this.gameObject.transform.position = Util.vec_add(_ovr_eye_center.transform.position,_ovr_offset);
+
+		_left_arm_actual_z = Util.drp(_left_arm_actual_z,_left_arm_start_z,0.25f);
+		_right_arm_actual_z = Util.drp(_right_arm_actual_z,_right_arm_start_z,0.25f);
+		Vector3 lap = _left_arm.transform.localPosition;
+		Vector3 rap = _right_arm.transform.localPosition;
+		lap.z = _left_arm_actual_z;
+		rap.z = _right_arm_actual_z;
+		_left_arm.transform.localPosition = lap;
+		_right_arm.transform.localPosition = rap;
 	}
 	[SerializeField] private Vector3 _ovr_offset;
 

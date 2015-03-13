@@ -36,6 +36,8 @@ public class GameUI : MonoBehaviour {
 	private Dictionary<int,EnemyFloatingTargetingUI> _objid_to_targetingui = new Dictionary<int, EnemyFloatingTargetingUI>();
 	private List<int> _objsids_to_remove = new List<int>();
 	public void i_update(BattleGameEngine game) {
+		_left_hand_target.GetComponent<Image>().fillAmount = ((float)game._left_hand_fire_count)/((float)BattleGameEngine.FIRE_COUNT_MAX);
+		_right_hand_target.GetComponent<Image>().fillAmount = ((float)game._right_hand_fire_count)/((float)BattleGameEngine.FIRE_COUNT_MAX);
 		if (game._current_mode == BattleGameEngineMode.GamePlay) {
 			_hud.gameObject.SetActive(true);
 			_hud.i_update(game);
