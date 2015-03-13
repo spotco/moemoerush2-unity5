@@ -26,7 +26,10 @@ public class GameUI : MonoBehaviour {
 	
 		_left_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
 		_right_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
+		_left_hand_target.i_initialize(ControllerHand.Left);
+		_right_hand_target.i_initialize(ControllerHand.Right);
 
+		_hud.i_initialize();
 		_press_any_key_to_start_flash.set_toggle();
 	}
 	

@@ -60,7 +60,52 @@ static int __remote_id_alloc = 0;
 	[[_controller get_socket] writeOut:jsout_str];
 }
 
--(void)wiimote:(Wiimote*)wiimote buttonPressed:(WiimoteButtonType)button{}
+-(void)wiimote:(Wiimote*)wiimote buttonPressed:(WiimoteButtonType)button{
+	NSString *btn_val = NULL;
+	switch (button) {
+		case WiimoteButtonTypeA:
+			btn_val = @"A";
+			break;
+		case WiimoteButtonTypeB:
+			btn_val = @"B";
+			break;
+		case WiimoteButtonTypeLeft:
+			btn_val = @"DL";
+			break;
+		case WiimoteButtonTypeRight:
+			btn_val = @"DR";
+			break;
+		case WiimoteButtonTypeUp:
+			btn_val = @"DU";
+			break;
+		case WiimoteButtonTypeDown:
+			btn_val = @"DD";
+			break;
+		case WiimoteButtonTypeMinus:
+			btn_val = @"-";
+			break;
+		case WiimoteButtonTypePlus:
+			btn_val = @"+";
+			break;
+		case WiimoteButtonTypeHome:
+			btn_val = @"H";
+			break;
+		case WiimoteButtonTypeOne:
+			btn_val = @"1";
+			break;
+		case WiimoteButtonTypeTwo:
+			btn_val = @"2";
+			break;
+		default:
+			break;
+	}
+	if (btn_val != NULL) {
+		[self socket_message_send:@{
+			@"t" : @"bp",
+			@"b" : btn_val
+		}];
+	}
+}
 -(void)wiimote:(Wiimote*)wiimote buttonReleased:(WiimoteButtonType)button{
 	NSString *btn_val = NULL;
 	switch (button) {

@@ -2,21 +2,31 @@
 using System.Collections;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(EasyFontTextMesh))]
 public class FadeInOutImage : MonoBehaviour {
 	private enum Mode {
 		Show, Hide
 	};
 	private Mode _current_mode;
-	private EasyFontTextMesh _img;
+	private EasyFontTextMesh _text;
+	private Image _img;
 
 	private float _current_alpha = 0;
 	private float _current_scale = 1;
 	private float _tar_alpha = 0;
 	private float _tar_scale = 1;
+	[SerializeField] private float _scale_mult;
+	public float get_scale_mult() {
+		if (_scale_mult == 0) {
+			return 1;
+		} else {
+			return _scale_mult;
+		}
+	}
 
 	void Start () {
-		_img = this.GetComponent<EasyFontTextMesh>();
+		_current_scale *= get_scale_mult();
+		_text = this.GetComponent<EasyFontTextMesh>();
+		_img = this.GetComponent<Image>();
 		_current_mode = Mode.Hide;
 		this.update_alpha(0);
 	}
@@ -27,7 +37,7 @@ public class FadeInOutImage : MonoBehaviour {
 		_do_toggle = true;
 		_current_alpha = 1;
 		_tar_alpha = 1;
-		_tar_scale = 1;
+		_tar_scale = 1 * get_scale_mult();
 	}
 
 	void Update () {
@@ -45,7 +55,8 @@ public class FadeInOutImage : MonoBehaviour {
 	}
 
 	void update_alpha(float val) {
-		_img.set_alpha(val);
+		if (_text != null) _text.set_alpha(val);
+		if (_img != null) _img.color = new Color(1,1,1,val);
 	}
 	void update_scale(float val) {
 		this.transform.localScale = Util.valv(val);
@@ -54,15 +65,15 @@ public class FadeInOutImage : MonoBehaviour {
 	public void show() {
 		if (_current_mode != Mode.Show) {
 			_current_alpha = 0.0f;
-			_current_scale = 1.5f;
+			_current_scale = 1.5f * get_scale_mult();
 		}
 		_current_mode = Mode.Show;
 		_tar_alpha = 1.0f;
-		_tar_scale = 1.0f;
+		_tar_scale = 1.0f * get_scale_mult();
 	}
 	public void hide() {
 		_current_mode = Mode.Hide;
 		_tar_alpha = 0.0f;
-		_tar_scale = 1.5f;
+		_tar_scale = 1.5f * get_scale_mult();
 	}
 }

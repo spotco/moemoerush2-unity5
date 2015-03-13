@@ -3,9 +3,11 @@ using System.Collections;
 
 [RequireComponent(typeof(SphereCollider))]
 public class PlayerTargetReticuleUI : MonoBehaviour {
-	
-	void Start () {
-	
+
+	public ControllerHand _hand;
+
+	public void i_initialize(ControllerHand hand) {
+		_hand = hand;
 	}
 
 	public void i_update(BattleGameEngine game, Ray dir) {

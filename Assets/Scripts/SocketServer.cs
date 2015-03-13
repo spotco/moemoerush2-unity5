@@ -36,8 +36,16 @@ public class SocketServer : MonoBehaviour {
 						int id = Convert.ToInt32(jason.GetNumber("id"));
 						if (button == "B") {
 							_sceneref.game().player_shoot(id);
+							_sceneref.game().b_release(id);
 						}
-						
+
+					} else if (type == "bp") {
+						string button = jason.GetString("b");
+						int id = Convert.ToInt32(jason.GetNumber("id"));
+						if (button == "B") {
+							_sceneref.game().b_press(id);
+						}
+
 					} else if (type == "m") {
 						_sceneref._wii_model.wmp_report(jason);
 					} else if (type == "c") {

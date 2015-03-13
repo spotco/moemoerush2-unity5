@@ -52,8 +52,6 @@ public class EnemyManager : MonoBehaviour {
 
 	public void shoot(BattleGameEngine game, ControllerHand hand) {
 		SphereCollider target_collider = null;
-		if (hand == ControllerHand.Left) target_collider = game._sceneref._ui._left_hand_target.get_collider();
-		if (hand == ControllerHand.Right) target_collider = game._sceneref._ui._right_hand_target.get_collider();
 
 		for(int i_enemy = _enemies.Count-1; i_enemy >= 0; i_enemy--) {
 			BaseEnemy itr_enemy = _enemies[i_enemy];
@@ -64,7 +62,7 @@ public class EnemyManager : MonoBehaviour {
 				continue;
 			}
 
-			if (Util.sphere_collider_intersect(target_collider,itr_fui.get_collider())) {
+			if ((hand == ControllerHand.Left && itr_fui._left_hand_hit) || (hand == ControllerHand.Right && itr_fui._right_hand_hit)) {
 				this.hit_enemy(game, itr_enemy,DateTime.Now.ToFileTime());
 			}
 		}
@@ -74,12 +72,15 @@ public class EnemyManager : MonoBehaviour {
 		itr_enemy.do_remove_killed(game);
 		_enemies.RemoveAt(_enemies.IndexOf(itr_enemy));
 		Destroy(itr_enemy.gameObject);
+
+		game._score.hit_success(game);
 	}
 
 	public void hit_player(BattleGameEngine game, BaseEnemy itr_enemy, long time){
 		itr_enemy.do_remove_hit_player(game);
 		_enemies.RemoveAt(_enemies.IndexOf(itr_enemy));
 		Destroy(itr_enemy.gameObject);
+		game._score.hit_failure(game);
 	}
 
 	public void destroy_all_enemies(GameUI _ui){

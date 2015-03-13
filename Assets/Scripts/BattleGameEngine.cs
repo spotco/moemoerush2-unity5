@@ -18,19 +18,20 @@ public enum BattleGameEngineMode {
 
 /*
 TODO -- 
-Prepmenu to game start (+ovr) transition
+write essay part
+combo effects
 ground type enemy
 Death anim and menu
 game end anim and menu
-combo and low health effects
-animated hand
 */
 public class BattleGameEngine : MonoBehaviour {
 	[NonSerialized] public SceneRef _sceneref;
 	[NonSerialized] public BattleGameEngineMode _current_mode;
 	[NonSerialized] public List<BaseParticle> _particles = new List<BaseParticle>();
+	[NonSerialized] public ScoreManager _score = new ScoreManager();
 
 	public void i_initialize(SceneRef sceneref) {
+		_score.i_initialize();
 		_sceneref = sceneref;
 		_sceneref._ui.i_initialize(this);
 		foreach(RepeatInstance repinst_itr in _sceneref._repeaters) {
@@ -62,7 +63,7 @@ public class BattleGameEngine : MonoBehaviour {
 			Vector3 neu_pos = new Vector3(Mathf.Cos(_anim_theta)*_anim_dist,_sceneref._player._ovr_root_camera.transform.position.y,Mathf.Sin(_anim_theta)*_anim_dist);
 			_sceneref._player._ovr_root_camera.transform.position = neu_pos;
 			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
-			if (Input.GetKeyUp(KeyCode.Space)) {
+			if (Input.GetKeyUp(KeyCode.Escape) || (_left_trig_pressed && _right_trig_pressed)) {
 				_current_mode = BattleGameEngineMode.IntroTransition;
 				_anim_initial_pos = _sceneref._player._ovr_root_camera.transform.position;
 				_anim_initial_rotation = _sceneref._player._ovr_root_camera.transform.rotation;
@@ -75,26 +76,33 @@ public class BattleGameEngine : MonoBehaviour {
 
 		} else if (_current_mode == BattleGameEngineMode.IntroTransition) {
 			_sceneref._ui.i_update (this);
-			_anim_theta += 0.0075f;
+			_anim_theta += 0.015f;
 			_sceneref._player._ovr_root_camera.transform.position = Util.sin_lerp_vec(_anim_initial_pos,_sceneref._player._ovrcamera_end_anchor.transform.position,_anim_theta);
 			_sceneref._player._ovr_root_camera.transform.rotation = Quaternion.Slerp(_anim_initial_rotation,_sceneref._player._ovrcamera_end_anchor.transform.rotation,Util.sin_lerp(0,1,_anim_theta));
 			if (_anim_theta < 0.3f) {
 				_sceneref._ui.show_countdown_ui(3);
+				_sceneref._player.set_headless(false);
 			} else if (_anim_theta < 0.6f) {
 				_sceneref._ui.show_countdown_ui(2);
+				_sceneref._player.set_headless(false);
 			} else {
 				_sceneref._ui.show_countdown_ui(1);
+				if (_anim_theta < 0.85f) {
+					_sceneref._player.set_headless(false);
+				} else {
+					_sceneref._player.set_headless(true);
+				}
 			}
 			foreach (RepeatInstance repinst_itr in _sceneref._repeaters) {
 				repinst_itr.i_update (this);
 			}
-			_sceneref._player.set_headless(false);
+
 
 			if (_anim_theta >= 1) {
 				_sceneref._ui.show_countdown_ui(0);
 				_current_mode = BattleGameEngineMode.GamePlay;
 				_sceneref._enemies.i_initialize(this);
-				//_sceneref._music.Play();
+				if (_sceneref._music != null) _sceneref._music.Play();
 			}
 		} else if (_current_mode == BattleGameEngineMode.GamePlay) {
 			_sceneref._player.i_update (this);
@@ -109,15 +117,36 @@ public class BattleGameEngine : MonoBehaviour {
 			
 		}
 	}
-
+	
 	public void player_shoot(int hand_id) {
-		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
-			_sceneref._player._left_beam.shoot();
-			_sceneref._enemies.shoot(this,ControllerHand.Left);
+		if (_current_mode == BattleGameEngineMode.GamePlay) {
+			if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
+				_sceneref._player._left_beam.shoot();
+				_sceneref._enemies.shoot(this,ControllerHand.Left);
 
+			} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
+				_sceneref._player._right_beam.shoot();
+				_sceneref._enemies.shoot(this,ControllerHand.Right);
+			}
+		}
+	}
+
+
+	private bool _left_trig_pressed = false;
+	private bool _right_trig_pressed = false;
+	public void b_press(int hand_id) {
+		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
+			_left_trig_pressed = true;
 		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
-			_sceneref._player._right_beam.shoot();
-			_sceneref._enemies.shoot(this,ControllerHand.Right);
+			_right_trig_pressed = true;
+		}
+	}
+
+	public void b_release(int hand_id) {
+		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
+			_left_trig_pressed = false;
+		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
+			_right_trig_pressed = false;
 		}
 	}
 
@@ -140,6 +169,50 @@ public class BattleGameEngine : MonoBehaviour {
 				_particles.RemoveAt(i_particle);
 			}
 		}
+	}
+}
+
+public class ScoreManager {	
+	public int _score;
+	public int _health;
+	public int _combo;
+	public const int MAX_HEALTH = 100;
+	public const int DAMAGE_PER_HIT = 5;
+	
+	public void i_initialize(){
+		_score = 0;
+		_combo = 0;
+		_health = MAX_HEALTH;
+	}
+	
+	public void hit_success(BattleGameEngine game){
+		int combo_mult;
+		if (_combo > 40) {
+			combo_mult = 4;
+		} else if (_combo > 20) {
+			combo_mult = 3;
+		} else if (_combo > 10) {
+			combo_mult = 2;
+		} else {
+			combo_mult = 1;
+		}
+
+		_score += 20 * combo_mult;
+		_health += 1 * combo_mult;
+		_combo++;
+		if (_health >= 100) {
+			_health = 100;
+		}
+	}
+	
+	public void hit_failure(BattleGameEngine game){
+		_combo = 0;
+		_health -= DAMAGE_PER_HIT;
+		if (_health < 0) _health = 0;
+	}
+	
+	public bool is_dead(){
+		return (_health <= 0);
 	}
 }
 

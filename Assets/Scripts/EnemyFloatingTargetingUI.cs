@@ -25,7 +25,7 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 	public EnemyFloatingTargetingUI i_initialize(BaseEnemy itr_enemy) {
 		_current_mode = EnemyFloatingTargetingUIMode.FadeIn;
 		_reticule_anim_t = 1.0f;
-		_retic_target_alpha = _reticule_image.color.a;
+		_retic_target_alpha = 0.35f;
 		this.update_reticule_in_anim();
 		return this;
 	}
@@ -40,13 +40,34 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 	public void i_update(BaseEnemy itr_enemy, BattleGameEngine game) {
 		this.transform.localScale = Util.valv(this.dist_scf(itr_enemy,game));
 		_active = true;
-		
-		if (Util.sphere_collider_intersect(game._sceneref._ui._left_hand_target.GetComponent<SphereCollider>(),this.GetComponent<SphereCollider>()) || 
-		    Util.sphere_collider_intersect(game._sceneref._ui._right_hand_target.GetComponent<SphereCollider>(),this.GetComponent<SphereCollider>()) ) {
-			_reticule_image.color = new Color(1.0f,0.8f,0.8f,0.85f);
+
+		if (_left_hand_hit || _right_hand_hit) {
+			_retic_target_alpha = 0.95f;
 		} else {
-			_reticule_image.color = new Color(1.0f,0.0f,0.0f,0.85f);
+			_retic_target_alpha = 0.75f;
 		}
+		Color neu_retic_color = _reticule_image.color;
+		neu_retic_color.a = _retic_target_alpha;
+		_reticule_image.color = neu_retic_color;
+
+	}
+
+	public bool _left_hand_hit = false;
+	public bool _right_hand_hit = false;
+	private void set_hand_hit(ControllerHand hand, bool val) {
+		if (hand == ControllerHand.Left) {
+			_left_hand_hit = val;
+		} else {
+			_right_hand_hit = val;
+		}
+	}
+
+	void OnTriggerEnter(Collider collision) {
+		if (collision.gameObject.GetComponent<PlayerTargetReticuleUI>() != null) set_hand_hit(collision.gameObject.GetComponent<PlayerTargetReticuleUI>()._hand,true);
+	}
+
+	void OnTriggerExit(Collider collision) {
+		if (collision.gameObject.GetComponent<PlayerTargetReticuleUI>() != null) set_hand_hit(collision.gameObject.GetComponent<PlayerTargetReticuleUI>()._hand,false);
 	}
 
 	public SphereCollider get_collider() {

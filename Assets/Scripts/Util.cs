@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class Util {
 
-	public static bool sphere_collider_intersect(SphereCollider a, SphereCollider b) {
-		return Util.vec_dist(a.transform.position,b.transform.position) <= a.radius + b.radius;
-	}
-
 	public static System.Random rand = new System.Random();
 	
 	public static float rand_range(float min, float max) {

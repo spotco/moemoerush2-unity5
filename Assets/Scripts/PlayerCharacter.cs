@@ -64,7 +64,7 @@ public class PlayerCharacter : MonoBehaviour {
 		Util.transform_set_euler_local(_left_arm.transform,whand_left);
 		Util.transform_set_euler_local(_right_arm.transform,whand_right);
 
-		this.update_head_bob(8.0f);
+		this.update_head_bob(10.0f);
 
 		this.gameObject.transform.position = Util.vec_add(_ovr_eye_center.transform.position,_ovr_offset);
 	}
