@@ -79,15 +79,20 @@ public class BattleGameEngine : MonoBehaviour {
 
 		} else if (_current_mode == BattleGameEngineMode.IntroTransition) {
 			_sceneref._ui.i_update (this);
+			if (_anim_theta == 0)SFXLib.inst.play_sfx(SFXLib.inst.sfx_ready);
 			_anim_theta += 0.015f;
 			_sceneref._player._ovr_root_camera.transform.position = Util.sin_lerp_vec(_anim_initial_pos,_sceneref._player._ovrcamera_end_anchor.transform.position,_anim_theta);
 			_sceneref._player._ovr_root_camera.transform.rotation = Quaternion.Slerp(_anim_initial_rotation,_sceneref._player._ovrcamera_end_anchor.transform.rotation,Util.sin_lerp(0,1,_anim_theta));
 			if (_anim_theta < 0.3f) {
 				_sceneref._ui.show_countdown_ui(3);
 				_sceneref._player.set_headless(false);
+				if (_anim_theta+0.015f > 0.3f)SFXLib.inst.play_sfx(SFXLib.inst.sfx_ready);
+
 			} else if (_anim_theta < 0.6f) {
 				_sceneref._ui.show_countdown_ui(2);
 				_sceneref._player.set_headless(false);
+				if (_anim_theta+0.015f > 0.6f)SFXLib.inst.play_sfx(SFXLib.inst.sfx_ready);
+
 			} else {
 				_sceneref._ui.show_countdown_ui(1);
 				if (_anim_theta < 0.85f) {
@@ -103,6 +108,7 @@ public class BattleGameEngine : MonoBehaviour {
 
 			if (_anim_theta >= 1) {
 				_sceneref._ui.show_countdown_ui(0);
+				SFXLib.inst.play_sfx(SFXLib.inst.sfx_go);
 				_current_mode = BattleGameEngineMode.GamePlay;
 				_sceneref._enemies.i_initialize(this);
 				if (_sceneref._music != null) _sceneref._music.Play();
