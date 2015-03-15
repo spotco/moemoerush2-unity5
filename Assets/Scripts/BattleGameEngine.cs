@@ -18,8 +18,6 @@ public enum BattleGameEngineMode {
 
 /*
 TODO -- 
-write essay part
-combo effects
 ground type enemy
 Death anim and menu
 game end anim and menu
@@ -228,11 +226,11 @@ public class ScoreManager {
 	
 	public void hit_success(BattleGameEngine game){
 		int combo_mult;
-		if (_combo > 40) {
+		if (_combo > 60) {
 			combo_mult = 4;
-		} else if (_combo > 20) {
+		} else if (_combo > 40) {
 			combo_mult = 3;
-		} else if (_combo > 10) {
+		} else if (_combo > 20) {
 			combo_mult = 2;
 		} else {
 			combo_mult = 1;
@@ -241,6 +239,11 @@ public class ScoreManager {
 		_score += 20 * combo_mult;
 		_health += 1 * combo_mult;
 		_combo++;
+
+		if (_combo % 10==0 && _combo>0) {
+			game._sceneref._ui.show_combo(_combo);
+		}
+
 		if (_health >= 100) {
 			_health = 100;
 		}

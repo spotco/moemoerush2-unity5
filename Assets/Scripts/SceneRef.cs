@@ -45,14 +45,12 @@ public class SceneRef : MonoBehaviour {
 
 
 		if (true) {
-
 			WavReader test = new WavReader("/Users/spotco/moemoerush/test.wav");
 			test.readWav();
 			this._music.clip = test.getAudioClip();
 			test.getAudioClip();
 			test.getBeatTimings();
 			this._wav_reader = test;
-
 			this._mode = SceneRef.SceneMode.GameEngine;
 		}
 	}

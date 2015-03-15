@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Util {
 
-	public static System.Random rand = new System.Random();
+	public static System.Random rand = new System.Random(69);
 	
 	public static float rand_range(float min, float max) {
 		float r = (float)rand.NextDouble();

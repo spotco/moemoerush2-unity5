@@ -52,6 +52,12 @@ public class FadeInOutImage : MonoBehaviour {
 		_current_scale = Util.drp(_current_scale,_tar_scale,0.25f);
 		this.update_alpha(_current_alpha);
 		this.update_scale(_current_scale);
+		if (_hold_ct > 0) {
+			_hold_ct--;
+			if (_hold_ct <= 0) {
+				this.hide();
+			}
+		}
 	}
 
 	void update_alpha(float val) {
@@ -61,12 +67,14 @@ public class FadeInOutImage : MonoBehaviour {
 	void update_scale(float val) {
 		this.transform.localScale = Util.valv(val);
 	}
-	
-	public void show() {
+
+	private int _hold_ct = -1;
+	public void show(int hold_ct = -1) {
 		if (_current_mode != Mode.Show) {
 			_current_alpha = 0.0f;
 			_current_scale = 1.5f * get_scale_mult();
 		}
+		_hold_ct = hold_ct;
 		_current_mode = Mode.Show;
 		_tar_alpha = 1.0f;
 		_tar_scale = 1.0f * get_scale_mult();

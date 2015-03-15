@@ -13,6 +13,7 @@ public class GameUI : MonoBehaviour {
 	[SerializeField] private FadeInOutImage _countdown_1;
 	[SerializeField] private FadeInOutImage _press_any_key_to_start_flash;
 	[SerializeField] private FadeInOutImage _start_text;
+	[SerializeField] private FadeInOutImage _combo;
 
 	[SerializeField] public IngameHUD _hud;
 
@@ -135,5 +136,11 @@ public class GameUI : MonoBehaviour {
 		if (_start_text_show_ct <= 0) {
 			_start_text.hide();
 		}
+	}
+
+	public void show_combo(int val) {
+		SFXLib.inst.play_sfx(SFXLib.inst.sfx_cheer);
+		_combo.GetComponent<EasyFontTextMesh>().Text = string.Format("{0} Combo!",val);
+		_combo.show(50);
 	}
 }

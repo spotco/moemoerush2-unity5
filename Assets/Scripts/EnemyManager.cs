@@ -8,7 +8,12 @@ public class EnemyManager : MonoBehaviour {
 	private long gameStartTime;
 
 	[SerializeField] MissileEnemy _missile_enemy_proto;
+	[SerializeField] HoverScoutEnemy _hoverscout_enemy_proto;
+	[SerializeField] AssaultPlatformEnemy _assaultplatform_enemy_proto;
+	[SerializeField] RobotSoldierEnemy _robotsoldier_enemy_proto;
+
 	[SerializeField] private GameObject _spawn_points_air;
+	[SerializeField] private GameObject _spawn_points_ground;
 
 	private List<BaseEnemy> _enemies = new List<BaseEnemy>();
 	public List<BaseEnemy> list() { return _enemies; }
@@ -30,11 +35,30 @@ public class EnemyManager : MonoBehaviour {
 	public const long MS_TO_100NS = 10000l;
 	
 	public void i_update(BattleGameEngine game) {
-		if(currentIndex < beats.Count && 
-		   (beats[currentIndex] * MS_TO_100NS)-INVULN_TIME <= DateTime.Now.ToFileTime() - gameStartTime){
+		if(currentIndex < beats.Count && (beats[currentIndex] * MS_TO_100NS)-INVULN_TIME <= DateTime.Now.ToFileTime() - gameStartTime){
 
-			MissileEnemy neu_enemy = Util.proto_clone(_missile_enemy_proto.gameObject).GetComponent<MissileEnemy>();
-			Vector3 spawn_pos = _spawn_points_air.transform.GetChild(Util.int_random(0,_spawn_points_air.transform.childCount)).position;
+			BaseEnemy neu_enemy;
+			Vector3 spawn_pos;
+			if (Util.int_random(0,4) != 0) {
+				if (Util.int_random(0,2) == 0) {
+					neu_enemy = Util.proto_clone(_missile_enemy_proto.gameObject).GetComponent<MissileEnemy>();
+					spawn_pos = _spawn_points_air.transform.GetChild(Util.int_random(0,_spawn_points_air.transform.childCount)).position;
+				} else {
+					neu_enemy = Util.proto_clone(_hoverscout_enemy_proto.gameObject).GetComponent<HoverScoutEnemy>();
+					spawn_pos = _spawn_points_air.transform.GetChild(Util.int_random(0,_spawn_points_air.transform.childCount)).position;
+				}
+
+
+			} else {
+				if (Util.int_random(0,2) == 0) {
+					neu_enemy = Util.proto_clone(_assaultplatform_enemy_proto.gameObject).GetComponent<AssaultPlatformEnemy>();
+					spawn_pos = _spawn_points_ground.transform.GetChild(Util.int_random(0,_spawn_points_ground.transform.childCount)).position;
+				} else {
+					neu_enemy = Util.proto_clone(_robotsoldier_enemy_proto.gameObject).GetComponent<RobotSoldierEnemy>();
+					spawn_pos = _spawn_points_ground.transform.GetChild(Util.int_random(0,_spawn_points_ground.transform.childCount)).position;
+				}
+
+			}
 			neu_enemy.i_initialize(game, spawn_pos, INVULN_TIME * MS_TO_100NS, HIT_TIME * MS_TO_100NS);
 			_enemies.Add(neu_enemy);
 
@@ -115,7 +139,7 @@ public class BaseEnemy : MonoBehaviour {
 		return DateTime.Now.ToFileTime() > _invuln_end_time;
 	}
 
-	private bool _has_played_lockon_sound = false;
+	protected bool _has_played_lockon_sound = false;
 	public virtual void i_update(BattleGameEngine game) {
 		this.transform.position = Vector3.Lerp(_start_position,game._sceneref._player._explosion_anchor.transform.position,this.t());
 		this.transform.LookAt(game._sceneref._player.transform.position);
