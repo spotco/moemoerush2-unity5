@@ -27,8 +27,8 @@ public class GameUI : MonoBehaviour {
 		_proto_player_target_reticule.gameObject.SetActive(false);
 		this.GetComponent<Canvas>().planeDistance = this.transform.localPosition.z;
 	
-		_left_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
-		_right_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
+		if (_left_hand_target == null) _left_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
+		if (_right_hand_target == null) _right_hand_target = Util.proto_clone(_proto_player_target_reticule.gameObject).GetComponent<PlayerTargetReticuleUI>();
 		_left_hand_target.i_initialize(ControllerHand.Left);
 		_right_hand_target.i_initialize(ControllerHand.Right);
 
