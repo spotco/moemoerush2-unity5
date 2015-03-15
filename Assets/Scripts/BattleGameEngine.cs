@@ -181,6 +181,10 @@ public class BattleGameEngine : MonoBehaviour {
 		_anim_theta = 0;
 		_current_mode = BattleGameEngineMode.TransitionToEnd;
 		SFXLib.inst.play_sfx(SFXLib.inst.sfx_end_jingle);
+
+		Vector3 ppos = _sceneref._player.transform.localPosition;
+		ppos.y = 0.469f;
+		_sceneref._player.transform.localPosition = ppos;
 	}
 	
 	public int _left_hand_fire_count = 0;
