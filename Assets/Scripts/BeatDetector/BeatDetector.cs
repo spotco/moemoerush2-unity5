@@ -36,17 +36,16 @@ namespace BeatProcessor
 			bass = BeatDetector.evelopeDetector (bass, (int) header.sampleRate);
 			BeatDetector.AverageBox (bass);
 			bass = BeatDetector.differentiate (bass);
-			bass = BeatDetector.findMax (bass, (int) header.sampleRate);
+			bass = BeatDetector.findMax (bass, (int) header.sampleRate, 0.1f);
 
 			List<short> drum = BeatDetector.bandPassFilter200_400 (left);
 			drum = BeatDetector.evelopeDetector (drum, (int) header.sampleRate);
 			BeatDetector.AverageBox (drum);
 			drum = BeatDetector.differentiate (drum);
-			drum = BeatDetector.findMax (drum, (int) header.sampleRate);
+			drum = BeatDetector.findMax (drum, (int) header.sampleRate, 0.4f);
 
-			//List<short> output = BeatDetector.combine (bass, drum);
-			List<short> output = bass;
-			output = BeatDetector.findMax (output, (int) header.sampleRate);
+			List<short> output = BeatDetector.combine (bass, drum);
+			output = BeatDetector.findMax (output, (int) header.sampleRate, 0.3f);
 
 			return BeatDetector.outputBeatMap (output, (int) header.sampleRate, beats);
 		}
@@ -168,9 +167,9 @@ namespace BeatProcessor
 		}
 
 		// find local max for the edge to represent the beat
-		private static List<short> findMax (List<short> channel, int sample_rate){
+		private static List<short> findMax (List<short> channel, int sample_rate, float interval){
 			List<short> result = new List<short> ();
-			int boxSize = (int) (0.1 * sample_rate);
+			int boxSize = (int) (interval * sample_rate);
 			int endBeat = 0;
 			bool beatOn = false;
 			short max = 0;
