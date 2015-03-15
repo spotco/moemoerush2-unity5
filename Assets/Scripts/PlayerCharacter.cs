@@ -3,26 +3,15 @@ using System.Collections;
 
 public class PlayerCharacter : MonoBehaviour {
 
-	public static string ANIM_WINK = "wink_00";
-	public static string ANIM_WALK = "walk_00";
-	public static string ANIM_THROWN = "thrown_20_p";
 	public static string ANIM_SPRINT = "sprint_00";
-	public static string ANIM_SPECIAL1 = "special_20_p";
-	public static string ANIM_SPECIAL2 = "special_21";
-	public static string ANIM_KICK = "kick_21";
-	public static string ANIM_SIDESTEP_LEFT = "sidestep_10_p";
-	public static string ANIM_SIDESTEP_RIGHT = "sidestep_11_p";
-	public static string ANIM_SALUTE = "salute_01";
-	public static string ANIM_JUMP_1 = "jump_10_a";
-	public static string ANIM_JUMP_2 = "jump_10_b";
-	public static string ANIM_JUMP_3 = "jump_10_c";
-	public static string ANIM_IDLE = "idle_00";
-	public static string ANIM_ROLL = "forwardroll_10_p";
+	public static string ANIM_DIE = "down_20_p";
+	public static string ANIM_CHEER = "greet_03";
 
 	[SerializeField] private GameObject _anim_body_root;
 	[SerializeField] private GameObject _headless_body_root;
 
 	[SerializeField] public GameObject _ovr_root_camera;
+	[SerializeField] public GameObject _shake;
 	[SerializeField] public GameObject _ovr_eye_center;
 
 	[SerializeField] public GameObject _left_arm;
@@ -36,6 +25,7 @@ public class PlayerCharacter : MonoBehaviour {
 	[SerializeField] public GameObject _explosion_anchor;
 	[SerializeField] public Transform _ovrcamera_start_anchor;
 	[SerializeField] public Transform _ovrcamera_end_anchor;
+	[SerializeField] public Transform _ovrcamera_gameover_anchor;
 
 	public void i_initialize(BattleGameEngine game) {
 		_anim_body_root.SetActive(false);
@@ -50,6 +40,8 @@ public class PlayerCharacter : MonoBehaviour {
 		_right_arm_start_z = _left_arm.transform.localPosition.z;
 		_left_arm_actual_z = _left_arm_start_z;
 		_right_arm_actual_z = _right_arm_start_z;
+		_shake_ct = 0;
+		_shake_val = 0;
 	}
 
 	private float _left_arm_start_z, _right_arm_start_z;
@@ -63,6 +55,13 @@ public class PlayerCharacter : MonoBehaviour {
 	}
 
 	public void i_update(BattleGameEngine game) {
+		if (_shake_ct > 0) {
+			_shake.transform.localPosition = new Vector3(Util.rand_range(-_shake_val,_shake_val),Util.rand_range(-_shake_val,_shake_val));
+			_shake_ct--;
+		} else {
+			_shake.transform.localPosition = Vector3.zero;
+		}
+
 		float tmp;
 		Vector3 whand_left = game._sceneref._wii_model._left_hand.transform.localRotation.eulerAngles;
 		tmp = whand_left.x;
@@ -94,6 +93,13 @@ public class PlayerCharacter : MonoBehaviour {
 	}
 	[SerializeField] private Vector3 _ovr_offset;
 
+	private int _shake_ct = 0;
+	private float _shake_val = 0;
+	public void shake(int ct, float val = 0.03f) {
+		_shake_ct = ct;
+		_shake_val = val;
+	}
+
 	private float _scale = 0.3f;
 	public void update_scale(float val) {
 		_scale = Mathf.Clamp(val,0.3f,5.0f);
@@ -120,8 +126,14 @@ public class PlayerCharacter : MonoBehaviour {
 			_headless_body_root.gameObject.SetActive(false);
 		}
 	}
-	public void play_anim(string val) {
+	public void play_anim(string val, bool loop = true, float spd = 1) {
 		_anim_body_root.GetComponent<Animation>().Play(val);
+		if (loop) {
+			_anim_body_root.GetComponent<Animation>().wrapMode = WrapMode.Loop;
+		} else {
+			_anim_body_root.GetComponent<Animation>().wrapMode = WrapMode.Clamp;
+		}
+		_anim_body_root.GetComponent<Animation>()[val].speed = spd;
 	}
 	
 }

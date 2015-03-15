@@ -9,7 +9,7 @@ public class RepeatInstance : MonoBehaviour {
 	[SerializeField] private float _test_dist;
 	[NonSerialized] private List<RepeatProto> _copies = new List<RepeatProto>();
 
-	public void i_initialize(BattleGameEngine game) {
+	public void i_initialize() {
 		_proto.gameObject.SetActive(false);
 		if (_test_dist == 0) _test_dist = 0.25f;
 

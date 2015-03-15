@@ -97,6 +97,10 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 		_last_dist_scf = val;
 		return val;
 	}
+	public float dist_scf_z_offset() {
+		if (_last_dist_scf == 0) return 0;
+		return (_last_dist_scf-_min_scale)/(_max_scale-_min_scale) * -100 + 50;
+	}
 	
 	public void fadeout() {
 		_current_mode = EnemyFloatingTargetingUIMode.FadeOut;

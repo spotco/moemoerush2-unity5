@@ -7,6 +7,17 @@ public class EnemyManager : MonoBehaviour {
 	private int currentIndex;
 	private long gameStartTime;
 
+	public bool is_enemies_finished() {
+		if (beats == null) return false;
+		return currentIndex >= beats.Count && _enemies.Count == 0;
+	}
+	public void clear_enemies() {
+		foreach(BaseEnemy itr in _enemies) {
+			Destroy(itr.gameObject);
+		}
+		_enemies.Clear();
+	}
+
 	[SerializeField] MissileEnemy _missile_enemy_proto;
 	[SerializeField] HoverScoutEnemy _hoverscout_enemy_proto;
 	[SerializeField] AssaultPlatformEnemy _assaultplatform_enemy_proto;
@@ -105,6 +116,7 @@ public class EnemyManager : MonoBehaviour {
 		_enemies.RemoveAt(_enemies.IndexOf(itr_enemy));
 		Destroy(itr_enemy.gameObject);
 		game._score.hit_failure(game);
+		SFXLib.inst.play_sfx(SFXLib.inst.sfx_itai);
 	}
 
 	public void destroy_all_enemies(GameUI _ui){
@@ -154,9 +166,11 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	public virtual void do_remove_killed(BattleGameEngine game) {
 		SFXLib.inst.enqueue_sfx(SFXLib.inst.sfx_hit);
+		game._sceneref._player.shake(6,0.06f);
 	}
 	public virtual void do_remove_hit_player(BattleGameEngine game) {
 		SFXLib.inst.play_sfx(SFXLib.inst.sfx_explosion);
+		game._sceneref._player.shake(12,0.1f);
 	}
 
 	public virtual Vector3 get_center() {

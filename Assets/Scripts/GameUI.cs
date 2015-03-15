@@ -14,8 +14,10 @@ public class GameUI : MonoBehaviour {
 	[SerializeField] private FadeInOutImage _press_any_key_to_start_flash;
 	[SerializeField] private FadeInOutImage _start_text;
 	[SerializeField] private FadeInOutImage _combo;
-
+	
 	[SerializeField] public IngameHUD _hud;
+	[SerializeField] public GameObject _gameover_hud;
+	[SerializeField] public EasyFontTextMesh _gameover_score;
 
 	[NonSerialized] public PlayerTargetReticuleUI _left_hand_target;
 	[NonSerialized] public PlayerTargetReticuleUI _right_hand_target;
@@ -31,6 +33,7 @@ public class GameUI : MonoBehaviour {
 		_right_hand_target.i_initialize(ControllerHand.Right);
 
 		_hud.i_initialize();
+		_press_any_key_to_start_flash.gameObject.SetActive(true);
 		_press_any_key_to_start_flash.set_toggle();
 	}
 	
@@ -44,7 +47,17 @@ public class GameUI : MonoBehaviour {
 			_hud.i_update(game);
 			_left_hand_target.gameObject.SetActive(true);
 			_right_hand_target.gameObject.SetActive(true);
+			_gameover_hud.SetActive(false);
+
+		} else if (game._current_mode == BattleGameEngineMode.GameEnd) {
+			_gameover_score.Text = string.Format("Score: "+game._score._score);
+			_gameover_hud.SetActive(true);
+			_hud.gameObject.SetActive(false);
+			_left_hand_target.gameObject.SetActive(false);
+			_right_hand_target.gameObject.SetActive(false);
+
 		} else {
+			_gameover_hud.SetActive(false);
 			_hud.gameObject.SetActive(false);
 			_left_hand_target.gameObject.SetActive(false);
 			_right_hand_target.gameObject.SetActive(false);
@@ -79,6 +92,9 @@ public class GameUI : MonoBehaviour {
 				
 				if (hit_found && itr_enemy.targetable()) {
 					fui.gameObject.transform.position = hit_info.point;
+					Vector3 fui_localpos = fui.gameObject.transform.localPosition;
+					fui_localpos.z = fui.dist_scf_z_offset();
+					fui.gameObject.transform.localPosition = fui_localpos;
 					fui.gameObject.SetActive(true);
 				} else {
 					fui.gameObject.SetActive(false);

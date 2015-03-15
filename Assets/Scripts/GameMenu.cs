@@ -95,7 +95,7 @@ public class GameMenu : MonoBehaviour {
 				_loading_menu.SetActive(false);
 
 				if (Input.GetKeyUp(KeyCode.Space)) {
-					_sceneref._mode = SceneRef.SceneMode.GameEngine;
+					_sceneref.start_game();
 				}
 			} else if (_current_mode == GameMenuMode.Loading) {
 				_home_menu.SetActive(false);

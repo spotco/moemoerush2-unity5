@@ -34,6 +34,9 @@ public class SceneRef : MonoBehaviour {
 		inst = this;
 		_mode = SceneMode.GameMenu;
 		_repeaters = new List<RepeatInstance>(_repeaters_root.GetComponentsInChildren<RepeatInstance>());
+		foreach(RepeatInstance repinst_itr in _repeaters) {
+			repinst_itr.i_initialize();
+		}
 
 		_socket_server = this.gameObject.AddComponent<SocketServer>();
 		_socket_server.i_initialize(this);
@@ -45,6 +48,7 @@ public class SceneRef : MonoBehaviour {
 
 
 		if (true) {
+			/*
 			WavReader test = new WavReader("/Users/spotco/moemoerush/test.wav");
 			test.readWav();
 			this._music.clip = test.getAudioClip();
@@ -52,6 +56,7 @@ public class SceneRef : MonoBehaviour {
 			test.getBeatTimings();
 			this._wav_reader = test;
 			this._mode = SceneRef.SceneMode.GameEngine;
+			*/
 		}
 	}
 
@@ -66,10 +71,13 @@ public class SceneRef : MonoBehaviour {
 		} else if (_mode == SceneMode.GameEngine) {
 			_main_menu.gameObject.SetActive(false);
 			_ovr_game_camera.gameObject.SetActive(true);
-			if (this.game() == null) {
-				this.gameObject.AddComponent<BattleGameEngine>().i_initialize(this);
-			}
 		}
+	}
+
+	public void start_game() {
+		if (game() != null) Destroy(game());
+		this.gameObject.AddComponent<BattleGameEngine>().i_initialize(this);
+		_mode = SceneMode.GameEngine;
 	}
 
 	public void Update() {
@@ -81,8 +89,20 @@ public class SceneRef : MonoBehaviour {
 			this.GetComponent<BattleGameEngine>().i_update();
 
 		}
+
+		if (Input.GetKeyUp(KeyCode.P)) {
+			this.restart();
+		}
 	}
 
 	public BattleGameEngine game() { return this.GetComponent<BattleGameEngine>(); }
+
+	public void restart() {
+		if (_music != null) _music.Stop();
+		_enemies.clear_enemies();
+		_main_menu.i_initialize(this);
+		_mode = SceneMode.GameMenu;
+		this.set_mode_visible();
+	}
 	
 }

@@ -13,15 +13,10 @@ public enum BattleGameEngineMode {
 	PreIntroTransitionStart,
 	IntroTransition,
 	GamePlay,
-	End
+	TransitionToEnd,
+	GameEnd
 };
 
-/*
-TODO -- 
-ground type enemy
-Death anim and menu
-game end anim and menu
-*/
 public class BattleGameEngine : MonoBehaviour {
 	[NonSerialized] public SceneRef _sceneref;
 	[NonSerialized] public BattleGameEngineMode _current_mode;
@@ -32,9 +27,7 @@ public class BattleGameEngine : MonoBehaviour {
 		_score.i_initialize();
 		_sceneref = sceneref;
 		_sceneref._ui.i_initialize(this);
-		foreach(RepeatInstance repinst_itr in _sceneref._repeaters) {
-			repinst_itr.i_initialize(this);
-		}
+
 		_current_mode = BattleGameEngineMode.PreIntroTransitionStart;
 		_sceneref._player.i_initialize(this);
 
@@ -51,7 +44,7 @@ public class BattleGameEngine : MonoBehaviour {
 	private void prep_into_transition() {
 		_sceneref._player._ovr_root_camera.transform.position = _sceneref._player._ovrcamera_start_anchor.transform.position;
 		_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
-		_anim_dist = Util.vec_dist(Vector3.zero,new Vector3(_sceneref._player._ovr_root_camera.transform.position.x,0,_sceneref._player._ovr_root_camera.transform.position.y));
+		_anim_dist = Util.vec_dist(_sceneref._player.transform.position,new Vector3(_sceneref._player._ovr_root_camera.transform.position.x,0,_sceneref._player._ovr_root_camera.transform.position.y));
 
 
 	}
@@ -61,7 +54,11 @@ public class BattleGameEngine : MonoBehaviour {
 		if (_current_mode == BattleGameEngineMode.PreIntroTransitionStart) {
 			_sceneref._ui.i_update (this);
 			_anim_theta += 0.01f;
-			Vector3 neu_pos = new Vector3(Mathf.Cos(_anim_theta)*_anim_dist,_sceneref._player._ovr_root_camera.transform.position.y,Mathf.Sin(_anim_theta)*_anim_dist);
+			Vector3 neu_pos = new Vector3(
+				Mathf.Cos(_anim_theta)*_anim_dist + _sceneref._player.transform.position.x,
+				_sceneref._player._ovr_root_camera.transform.position.y,
+				Mathf.Sin(_anim_theta)*_anim_dist + _sceneref._player.transform.position.z
+			);
 			_sceneref._player._ovr_root_camera.transform.position = neu_pos;
 			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
 			if (Input.GetKeyUp(KeyCode.Escape) || (_left_trig_pressed && _right_trig_pressed)) {
@@ -122,7 +119,68 @@ public class BattleGameEngine : MonoBehaviour {
 			}
 			_sceneref._player.set_headless(true);
 			update_fire_count();
+
+			if (_score._health <= 0 || _sceneref._enemies.is_enemies_finished()) {
+				prep_transition_to_end();
+			}
+
+		} else if (_current_mode == BattleGameEngineMode.TransitionToEnd) {
+			_sceneref._ui.i_update (this);
+			Vector3 tar_pos = new Vector3(
+				Mathf.Cos(_anim_theta)*_anim_dist + _sceneref._player.transform.position.x,
+				_sceneref._player._ovrcamera_gameover_anchor.transform.position.y,
+				Mathf.Sin(_anim_theta)*_anim_dist + _sceneref._player.transform.position.z
+			);
+			Quaternion pre = _sceneref._player._ovr_root_camera.transform.rotation;
+			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
+			Quaternion lookat = _sceneref._player._ovr_root_camera.transform.rotation;
+			_sceneref._player._ovr_root_camera.transform.rotation = pre;
+
+			_sceneref._player._ovr_root_camera.transform.position = Util.sin_lerp_vec(_anim_initial_pos,tar_pos,_anim_theta);
+			_sceneref._player._ovr_root_camera.transform.rotation = Quaternion.Slerp(_anim_initial_rotation,lookat,Util.sin_lerp(0,1,_anim_theta));
+			_anim_theta += 0.025f;
+			if (_anim_theta >= 1) {
+				_current_mode = BattleGameEngineMode.GameEnd;
+				if (_score._health > 0) {
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_game_end_voice);
+				}
+			}
+
+		} else if (_current_mode == BattleGameEngineMode.GameEnd) {
+			_anim_theta += 0.015f;
+			_sceneref._ui.i_update (this);
+			Vector3 neu_pos = new Vector3(
+				Mathf.Cos(_anim_theta)*_anim_dist + _sceneref._player.transform.position.x,
+				_sceneref._player._ovr_root_camera.transform.position.y,
+				Mathf.Sin(_anim_theta)*_anim_dist + _sceneref._player.transform.position.z
+			);
+			_sceneref._player._ovr_root_camera.transform.position = neu_pos;
+			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
+			if (Input.GetKeyUp(KeyCode.Escape)) {
+				_sceneref.restart();
+			}
 		}
+	}
+	
+	public void prep_transition_to_end() {
+		if (_sceneref._music != null) _sceneref._music.Stop();
+		_sceneref._player.set_headless(false);
+		_sceneref._enemies.clear_enemies();
+		if (_score._health > 0) {
+			_sceneref._player.play_anim(PlayerCharacter.ANIM_CHEER);
+		} else {
+			_sceneref._player.play_anim(PlayerCharacter.ANIM_DIE,false,0.5f);
+		}
+
+		_anim_dist = Util.vec_dist(
+			_sceneref._player.transform.position,
+			_sceneref._player._ovrcamera_gameover_anchor.transform.position
+		);
+		_anim_initial_pos = _sceneref._player._ovr_root_camera.transform.position;
+		_anim_initial_rotation = _sceneref._player._ovr_root_camera.transform.rotation;
+		_anim_theta = 0;
+		_current_mode = BattleGameEngineMode.TransitionToEnd;
+		SFXLib.inst.play_sfx(SFXLib.inst.sfx_end_jingle);
 	}
 	
 	public int _left_hand_fire_count = 0;
