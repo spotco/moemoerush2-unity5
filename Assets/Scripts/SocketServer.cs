@@ -36,14 +36,14 @@ public class SocketServer : MonoBehaviour {
 						int id = Convert.ToInt32(jason.GetNumber("id"));
 						if (button == "B") {
 							_sceneref.game().player_shoot(id);
-							_sceneref.game().b_release(id);
+							this.b_release(sceneref,id);
 						}
 
 					} else if (type == "bp") {
 						string button = jason.GetString("b");
 						int id = Convert.ToInt32(jason.GetNumber("id"));
 						if (button == "B") {
-							_sceneref.game().b_press(id);
+							this.b_press(sceneref,id);
 						}
 
 					} else if (type == "m") {
@@ -67,6 +67,24 @@ public class SocketServer : MonoBehaviour {
 			obj.Add("action","unity_connect");
 			enqueue_msg_to_send(obj.ToString());
 		});
+	}
+
+	public bool _left_trig_pressed = false;
+	public bool _right_trig_pressed = false;
+	public void b_press(SceneRef _sceneref,int hand_id) {
+		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
+			_left_trig_pressed = true;
+		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
+			_right_trig_pressed = true;
+		}
+	}
+	
+	public void b_release(SceneRef _sceneref, int hand_id) {
+		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
+			_left_trig_pressed = false;
+		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
+			_right_trig_pressed = false;
+		}
 	}
 	
 	void OnApplicationQuit() {

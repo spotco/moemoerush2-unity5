@@ -71,7 +71,7 @@ public class CGScenes : MonoBehaviour {
 	public void i_update(SceneRef sceneref) {
 		if (_current_mode == Mode.WaitStart) {
 			_press_any_key_to_start.gameObject.SetActive(true);
-			if ((sceneref.game()._left_trig_pressed && sceneref.game()._right_trig_pressed) || Input.GetKeyUp(KeyCode.Escape)) {
+			if ((sceneref._socket_server._left_trig_pressed && sceneref._socket_server._right_trig_pressed) || Input.GetKeyUp(KeyCode.Escape)) {
 				_press_any_key_to_start.gameObject.SetActive(false);
 				_current_mode = Mode.FadeIn;
 			}

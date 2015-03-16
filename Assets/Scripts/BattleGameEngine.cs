@@ -64,7 +64,7 @@ public class BattleGameEngine : MonoBehaviour {
 			);
 			_sceneref._player._ovr_root_camera.transform.position = neu_pos;
 			_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
-			if (Input.GetKeyUp(KeyCode.Escape) || (_left_trig_pressed && _right_trig_pressed)) {
+			if (Input.GetKeyUp(KeyCode.Escape) || (_sceneref._socket_server._left_trig_pressed && _sceneref._socket_server._right_trig_pressed)) {
 				_current_mode = BattleGameEngineMode.IntroTransition;
 				_anim_initial_pos = _sceneref._player._ovr_root_camera.transform.position;
 				_anim_initial_rotation = _sceneref._player._ovr_root_camera.transform.rotation;
@@ -234,25 +234,6 @@ public class BattleGameEngine : MonoBehaviour {
 					SFXLib.inst.play_sfx(SFXLib.inst.sfx_buzz);
 				}
 			}
-		}
-	}
-
-
-	public bool _left_trig_pressed = false;
-	public bool _right_trig_pressed = false;
-	public void b_press(int hand_id) {
-		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
-			_left_trig_pressed = true;
-		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
-			_right_trig_pressed = true;
-		}
-	}
-
-	public void b_release(int hand_id) {
-		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
-			_left_trig_pressed = false;
-		} else if (_sceneref._wii_model.is_right_hand_id(hand_id)) {
-			_right_trig_pressed = false;
 		}
 	}
 
