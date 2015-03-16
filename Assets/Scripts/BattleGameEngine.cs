@@ -53,7 +53,7 @@ public class BattleGameEngine : MonoBehaviour {
 	public void i_update() {
 		if (_current_mode == BattleGameEngineMode.PreIntroTransitionStart) {
 			_sceneref._ui.i_update (this);
-			_anim_theta += 0.01f;
+			_anim_theta += 0.0025f;
 			Vector3 neu_pos = new Vector3(
 				Mathf.Cos(_anim_theta)*_anim_dist + _sceneref._player.transform.position.x,
 				_sceneref._player._ovr_root_camera.transform.position.y,
@@ -147,7 +147,7 @@ public class BattleGameEngine : MonoBehaviour {
 			}
 
 		} else if (_current_mode == BattleGameEngineMode.GameEnd) {
-			_anim_theta += 0.015f;
+			_anim_theta += 0.0025f;
 			_sceneref._ui.i_update (this);
 			Vector3 neu_pos = new Vector3(
 				Mathf.Cos(_anim_theta)*_anim_dist + _sceneref._player.transform.position.x,
@@ -183,7 +183,7 @@ public class BattleGameEngine : MonoBehaviour {
 		SFXLib.inst.play_sfx(SFXLib.inst.sfx_end_jingle);
 
 		Vector3 ppos = _sceneref._player.transform.localPosition;
-		ppos.y = 0.469f;
+		ppos.y = 0.46f;
 		_sceneref._player.transform.localPosition = ppos;
 	}
 	
