@@ -45,7 +45,7 @@ namespace BeatProcessor
 			drum = BeatDetector.findMax (drum, (int) header.sampleRate, 0.4f);
 
 			List<short> output = BeatDetector.combine (bass, drum);
-			output = BeatDetector.findMax (output, (int) header.sampleRate, 0.3f);
+			output = BeatDetector.findMax (output, (int) header.sampleRate, 0.4f);
 
 			return BeatDetector.outputBeatMap (output, (int) header.sampleRate, beats);
 		}
