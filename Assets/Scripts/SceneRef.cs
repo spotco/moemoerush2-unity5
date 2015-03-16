@@ -20,13 +20,16 @@ public class SceneRef : MonoBehaviour {
 	[SerializeField] public GameMenu _main_menu;
 	[SerializeField] public OVRCameraRig _ovr_game_camera;
 
+	[SerializeField] public CGScenes _cgscenes;
+
 	[NonSerialized] public SocketServer _socket_server;
 
 	[NonSerialized] public WavReader _wav_reader;
 
 	public enum SceneMode {
 		GameMenu,
-		GameEngine
+		GameEngine,
+		CGScenes
 	}
 	[NonSerialized] public SceneMode _mode;
 
@@ -42,6 +45,8 @@ public class SceneRef : MonoBehaviour {
 		_socket_server.i_initialize(this);
 		_wii_model.i_initialize();
 
+		this.gameObject.AddComponent<BattleGameEngine>();
+
 
 		this._main_menu.i_initialize(this);
 		this.set_mode_visible();
@@ -55,8 +60,10 @@ public class SceneRef : MonoBehaviour {
 			test.getAudioClip();
 			test.getBeatTimings();
 			this._wav_reader = test;
-			this._mode = SceneRef.SceneMode.GameEngine;
+			start_game();
 			*/
+			start_cgscenes();
+
 		}
 	}
 
@@ -64,17 +71,32 @@ public class SceneRef : MonoBehaviour {
 		if (_mode == SceneMode.GameMenu) {
 			_main_menu.gameObject.SetActive(true);
 			_ovr_game_camera.gameObject.SetActive(false);
-			if (this.game() != null) {
-				Destroy(this.game());
-			}
+			_ui.gameObject.SetActive(false);
+			_cgscenes.gameObject.SetActive(false);
 
 		} else if (_mode == SceneMode.GameEngine) {
 			_main_menu.gameObject.SetActive(false);
+			_ui.gameObject.SetActive(true);
 			_ovr_game_camera.gameObject.SetActive(true);
+			_cgscenes.gameObject.SetActive(false);
+
+		} else if (_mode == SceneMode.CGScenes) {
+			_main_menu.gameObject.SetActive(false);
+			_ui.gameObject.SetActive(false);
+			_ovr_game_camera.gameObject.SetActive(true);
+			_cgscenes.gameObject.SetActive(true);
+
 		}
 	}
 
+	public void start_cgscenes() {
+		_cgscenes.gameObject.SetActive(true);
+		_cgscenes.i_initialize(this);
+		_mode = SceneMode.CGScenes;
+	}
+
 	public void start_game() {
+		_cgscenes.gameObject.SetActive(false);
 		if (game() != null) Destroy(game());
 		this.gameObject.AddComponent<BattleGameEngine>().i_initialize(this);
 		_mode = SceneMode.GameEngine;
@@ -86,13 +108,17 @@ public class SceneRef : MonoBehaviour {
 			_main_menu.i_update();
 			
 		} else if (_mode == SceneMode.GameEngine) {
-			this.GetComponent<BattleGameEngine>().i_update();
+			game().i_update();
 
+		} else if (_mode == SceneMode.CGScenes) {
+			_cgscenes.i_update(this);
 		}
 
+		/*
 		if (Input.GetKeyUp(KeyCode.P)) {
 			this.restart();
 		}
+		*/
 	}
 
 	public BattleGameEngine game() { return this.GetComponent<BattleGameEngine>(); }

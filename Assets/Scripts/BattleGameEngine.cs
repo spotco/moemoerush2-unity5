@@ -44,7 +44,10 @@ public class BattleGameEngine : MonoBehaviour {
 	private void prep_into_transition() {
 		_sceneref._player._ovr_root_camera.transform.position = _sceneref._player._ovrcamera_start_anchor.transform.position;
 		_sceneref._player._ovr_root_camera.transform.LookAt(_sceneref._player._ovrcamera_end_anchor);
-		_anim_dist = Util.vec_dist(_sceneref._player.transform.position,new Vector3(_sceneref._player._ovr_root_camera.transform.position.x,0,_sceneref._player._ovr_root_camera.transform.position.y));
+		_anim_dist = Util.vec_dist(
+			new Vector3(_sceneref._player.transform.position.x,_sceneref._player.transform.position.y),
+		    new Vector3(_sceneref._player._ovr_root_camera.transform.position.x,_sceneref._player._ovr_root_camera.transform.position.y)
+		);
 
 
 	}
@@ -143,6 +146,8 @@ public class BattleGameEngine : MonoBehaviour {
 				_current_mode = BattleGameEngineMode.GameEnd;
 				if (_score._health > 0) {
 					SFXLib.inst.play_sfx(SFXLib.inst.sfx_game_end_voice);
+				} else {
+					SFXLib.inst.play_sfx(SFXLib.inst.sfx_girl_sad);
 				}
 			}
 
@@ -233,8 +238,8 @@ public class BattleGameEngine : MonoBehaviour {
 	}
 
 
-	private bool _left_trig_pressed = false;
-	private bool _right_trig_pressed = false;
+	public bool _left_trig_pressed = false;
+	public bool _right_trig_pressed = false;
 	public void b_press(int hand_id) {
 		if (_sceneref._wii_model.is_left_hand_id(hand_id)) {
 			_left_trig_pressed = true;

@@ -24,6 +24,12 @@ public class SFXLib : MonoBehaviour {
 	[SerializeField] public AudioClip sfx_itai;
 	[SerializeField] public AudioClip sfx_game_end_voice;
 
+	[SerializeField] public AudioClip sfx_girl_sad;
+	[SerializeField] public AudioClip sfx_girl_late;
+	[SerializeField] public AudioClip sfx_soldier_warn;
+	[SerializeField] public AudioClip sfx_general_speak;
+	[SerializeField] public AudioClip sfx_crowd;
+
 	public void play_sfx(AudioClip tar) {
 		this.GetComponent<AudioSource>().PlayOneShot(tar);
 	}
