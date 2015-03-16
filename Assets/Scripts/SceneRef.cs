@@ -61,8 +61,9 @@ public class SceneRef : MonoBehaviour {
 			test.getBeatTimings();
 			this._wav_reader = test;
 			start_game();
-			*/
+
 			start_cgscenes();
+			*/
 
 		}
 	}
