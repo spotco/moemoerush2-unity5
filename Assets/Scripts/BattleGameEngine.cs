@@ -195,15 +195,16 @@ public class BattleGameEngine : MonoBehaviour {
 	public int _left_hand_fire_count = 0;
 	public int _right_hand_fire_count = 0;
 	public const int FIRE_COUNT_MAX = 5;
-	public int _last_fired_time_left = 0;
-	public int _last_fired_time_right = 0;
+	public float _last_fired_time_left = 0;
+	public float _last_fired_time_right = 0;
 	private void update_fire_count() {
-		_last_fired_time_left++;
-		_last_fired_time_right++;
-		if (_last_fired_time_left > 10) {
+		_last_fired_time_left+=Time.deltaTime;
+		_last_fired_time_right+=Time.deltaTime;
+		Debug.Log (""+Time.deltaTime);
+		if (_last_fired_time_left > 0.5f) {
 			_left_hand_fire_count = Math.Min(_left_hand_fire_count+1,FIRE_COUNT_MAX);
 		}
-		if (_last_fired_time_right > 10) {
+		if (_last_fired_time_right > 0.5f) {
 			_right_hand_fire_count = Math.Min(_right_hand_fire_count+1,FIRE_COUNT_MAX);
 		}
 	}

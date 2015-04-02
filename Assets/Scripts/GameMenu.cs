@@ -9,11 +9,9 @@ public class GameMenu : MonoBehaviour {
 
 	[NonSerialized] public SceneRef _sceneref;
 
-	[SerializeField] public Image _cursor;
 	[SerializeField] private Collider _ui_collider;
 	[SerializeField] private GameObject _camera_anchor;
 
-	[SerializeField] private UIButton _import_button;
 	[SerializeField] private UniFileBrowserWrapper _file_browser;
 
 	[SerializeField] private GameObject _home_menu;
@@ -36,7 +34,11 @@ public class GameMenu : MonoBehaviour {
 
 	public void i_initialize(SceneRef sceneref) {
 		_sceneref = sceneref;
-		_import_button.i_initialize(_cursor.gameObject,()=>{
+		_current_mode = GameMenuMode.HomeMenu;
+	}
+
+	public void i_update() {
+		if (Input.GetKeyUp(KeyCode.Space) && _current_mode == GameMenuMode.HomeMenu) {
 			_current_mode = GameMenuMode.FilePicker;
 			_file_browser.pick_file((string filepath)=>{
 				_current_mode = GameMenuMode.Loading;
@@ -56,11 +58,9 @@ public class GameMenu : MonoBehaviour {
 					});
 				});
 			});
-		});
-		_current_mode = GameMenuMode.HomeMenu;
-	}
+			return;
+		}
 
-	public void i_update() {
 		_on_next_update.UpdateTick();
 		if (_current_mode == GameMenuMode.FilePicker) {
 			Cursor.visible = true;
@@ -69,20 +69,6 @@ public class GameMenu : MonoBehaviour {
 		} else {
 			Cursor.visible = false;
 			_ui_collider.gameObject.SetActive(true);
-
-			Vector3 mouse_project = Util.vec_sub(_ui_collider.transform.position,_camera_anchor.transform.position);
-			mouse_project.x += (Input.mousePosition.x - Screen.width/2.0f)/(Screen.width/2.0f);
-			mouse_project.y += (Input.mousePosition.y - Screen.height/2.0f)/(Screen.height/2.0f);
-			mouse_project.Normalize();
-			
-			
-			Ray dir = new Ray(_camera_anchor.transform.position,mouse_project);
-			RaycastHit hit_info;
-			bool hit_found = _ui_collider.Raycast(dir,out hit_info,100);
-			if (hit_found) {
-				_cursor.transform.position = hit_info.point;
-				
-			}
 			
 			if (_current_mode == GameMenuMode.HomeMenu) {
 				_home_menu.SetActive(true);

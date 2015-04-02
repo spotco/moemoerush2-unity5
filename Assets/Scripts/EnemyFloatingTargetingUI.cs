@@ -47,7 +47,7 @@ public class EnemyFloatingTargetingUI : MonoBehaviour {
 		_active = true;
 		
 		Color neu_retic_color = _reticule_image.color;
-		if (_left_hand_hit || _right_hand_hit) {
+		if ((_left_hand_hit && game._left_hand_fire_count > 0) || (_right_hand_hit && game._right_hand_fire_count > 0)) {
 			_selected = true;
 			neu_retic_color.r = 255.0f/255.0f;
 			neu_retic_color.g = 200.0f/255.0f;

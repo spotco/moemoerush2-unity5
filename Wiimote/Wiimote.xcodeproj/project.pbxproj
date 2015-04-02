@@ -911,7 +911,7 @@
 				0A22061115C2A850004D168E /* PBXTargetDependency */,
 			);
 			name = WiimoteSocketApp;
-			productName = test;
+			productName = WiimoteSocketApp;
 			productReference = 0A22060A15C2A84C004D168E /* WiimoteSocketApp.app */;
 			productType = "com.apple.product-type.application";
 		};
